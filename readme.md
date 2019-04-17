@@ -18,11 +18,11 @@ Download or Pull Repository from git to your working directory.
 
 run following in command line inside your working directory. 
 
-To install all the composer dependency's 
+>To install all the composer dependency's 
 > `composer install` 
 
-To install Node Modules. After completion you will find Node_modules folder in your folder list 
+>To install Node Modules. After completion you will find Node_modules folder in your folder list 
 > `npm install`
 
-To build Laravel mix Components.
+>To build Laravel mix Components.
 > `npm run dev` 
