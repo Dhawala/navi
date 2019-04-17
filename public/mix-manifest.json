@@ -1,0 +1,16 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/fontawesome.js": "/js/fontawesome.js",
+    "/js/sb-admin-2.js": "/js/sb-admin-2.js",
+    "/js/bootstrap.bundle.js": "/js/bootstrap.bundle.js",
+    "/js/jquery.easing.js": "/js/jquery.easing.js",
+    "/css/dataTables.bootstrap4.min.css": "/css/dataTables.bootstrap4.min.css",
+    "/js/dataTables.bootstrap4.min.js": "/js/dataTables.bootstrap4.min.js",
+    "/js/jquery.dataTables.min.js": "/js/jquery.dataTables.min.js",
+    "/js/moment.js": "/js/moment.js",
+    "/css/tempusdominus-bootstrap-4.css": "/css/tempusdominus-bootstrap-4.css",
+    "/js/tempusdominus-bootstrap-4.js": "/js/tempusdominus-bootstrap-4.js",
+    "/css/bootstrap-select.css": "/css/bootstrap-select.css",
+    "/js/bootstrap-select.js": "/js/bootstrap-select.js"
+}
