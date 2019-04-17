@@ -13,10 +13,16 @@ Navi is the Web application designed for the OUSL Route Guidance Mobile Applicat
 ## Installation
 
 Download or Pull Repository from git to your working directory.
-- install Composer
-- install NodeJs
+1. install Composer
+1. install NodeJs
 
-run following in command line inside your working directory 
+run following in command line inside your working directory. 
 
+To install all the composer dependency's 
+> `composer install` 
 
- 
+To install Node Modules. After completion you will find Node_modules folder in your folder list 
+> `npm install`
+
+To build Laravel mix Components.
+> `npm run dev` 
