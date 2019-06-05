@@ -88,8 +88,14 @@
 
                             </div>
                             <hr>
+
                             <input class="btn btn-primary btn-sm" type="submit" id="submit" name="submit"
                                    value="Submit">
+                            <span class="float-right">
+                            <a class="btn btn-success btn-sm" id="upload" name="upload"
+                               ><i class="fa fa-upload"></i>Upload</a>
+                            </span>
+
                         </div>
                     </form>
                 </div>
@@ -113,7 +119,10 @@
 
             $('select').selectpicker();
 
+            $('a[name=upload]').click(function (e) {
+                e.preventDefault();
 
+            });
         });
     </script>
 @endsection
