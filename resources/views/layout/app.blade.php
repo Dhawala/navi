@@ -91,6 +91,7 @@
 <!-- Bootstrap core JavaScript-->
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/bootstrap.bundle.js')}}"></script>
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
 {{--<script src="vendor/jquery/jquery.min.js"></script>--}}
 {{--<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>--}}
 
@@ -122,7 +123,10 @@
 {{--End date time picker js--}}
 {{--<bootstrap select >--}}
 <script src="{{asset('js/bootstrap-select.js')}}"></script>
+{{--
 <script src="{{asset('js/i18n/defaults-*.min.js')}}"></script>
+--}}
+<script src="{{asset('js/i18n/defaults-en_US.min.js')}}"></script>
 {{--End bootstrap select--}}
 @yield('script')
 {{--Data table--}}

@@ -5,7 +5,32 @@
     <h1 class="h3 mb-4 text-gray-800">Create schedule</h1>
 
     <div class="row">
-        <div class="col-md-12 ">
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modal Heading</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        Modal body..
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 " id="app">
             <div class="card shadow mb-4">
                 <div class="card-body ">
                     <form action="/schedules" method="POST" enctype="multipart/form-data">
@@ -21,7 +46,8 @@
                                     </select>
 
                                     <label>course code</label>
-                                    <select class="form-control" name="course_code" id="course_code" data-live-search="true">
+                                    <select class="form-control" name="course_code" id="course_code"
+                                            data-live-search="true">
                                         @foreach($courses as $course)
                                             <option value="{{$course->course_code}}">{{$course->course_name}}</option>
                                         @endforeach
@@ -50,15 +76,19 @@
                                     </div>
                                     <label>Start Time</label>
                                     <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-                                        <input type="text" name="start_time" class="form-control datetimepicker-input" data-target="#datetimepicker3"/>
-                                        <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                                        <input type="text" name="start_time" class="form-control datetimepicker-input"
+                                               data-target="#datetimepicker3"/>
+                                        <div class="input-group-append" data-target="#datetimepicker3"
+                                             data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
                                         </div>
                                     </div>
                                     <label>End Time</label>
                                     <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                                        <input type="text" name="end_time" class="form-control datetimepicker-input" data-target="#datetimepicker2"/>
-                                        <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                        <input type="text" name="end_time" class="form-control datetimepicker-input"
+                                               data-target="#datetimepicker2"/>
+                                        <div class="input-group-append" data-target="#datetimepicker2"
+                                             data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
                                         </div>
                                     </div>
@@ -92,8 +122,10 @@
                             <input class="btn btn-primary btn-sm" type="submit" id="submit" name="submit"
                                    value="Submit">
                             <span class="float-right">
-                            <a class="btn btn-success btn-sm" id="upload" name="upload"
-                               ><i class="fa fa-upload"></i>Upload</a>
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#myModal">Open modal</button>
+                            <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal"><i
+                                        class="fa fa-upload"></i>Upload</a>
                             </span>
 
                         </div>
@@ -120,7 +152,7 @@
             $('select').selectpicker();
 
             $('a[name=upload]').click(function (e) {
-                e.preventDefault();
+                //e.preventDefault();
 
             });
         });
