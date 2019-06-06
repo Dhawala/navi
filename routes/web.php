@@ -29,6 +29,7 @@ Route::resource('/rooms', 'RoomsController');
 Route::resource('/schedules', 'SchedulesController');
 Route::resource('/students', 'StudentsController');
 Route::resource('/allocations', 'AllocationsController');
+Route::resource('/file', 'FileController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

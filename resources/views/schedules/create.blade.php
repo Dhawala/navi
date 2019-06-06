@@ -15,10 +15,11 @@
                         <h4 class="modal-title">Modal Heading</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-<form action="" enctype="multipart/form-data" method="post">
+<form action="/file" enctype="multipart/form-data" method="post">
+                    @csrf
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <input type="file" name="upload_file[]" multiple>
+                        <input type="file" name="upload_file" multiple>
                     </div>
 {{--https://handsontable.com/ excel like table--}}
                     <!-- Modal footer -->
