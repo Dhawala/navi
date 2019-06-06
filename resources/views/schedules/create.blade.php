@@ -15,17 +15,17 @@
                         <h4 class="modal-title">Modal Heading</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-
+<form action="" enctype="multipart/form-data" method="post">
                     <!-- Modal body -->
                     <div class="modal-body">
-                        Modal body..
+                        <input type="file" name="upload_file[]" multiple>
                     </div>
-
+{{--https://handsontable.com/ excel like table--}}
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Upload PDF</button>
                     </div>
-
+</form>
                 </div>
             </div>
         </div>
@@ -122,8 +122,6 @@
                             <input class="btn btn-primary btn-sm" type="submit" id="submit" name="submit"
                                    value="Submit">
                             <span class="float-right">
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#myModal">Open modal</button>
                             <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal"><i
                                         class="fa fa-upload"></i>Upload</a>
                             </span>
