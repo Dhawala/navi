@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\File;
 use Illuminate\Http\Request;
 use Smalot\PdfParser\Parser;
@@ -80,6 +81,34 @@ class FileController extends Controller
         $pdf = $parser->parseFile(storage_path("app\public\uploads\\".$fileNameToStore));
 
         $text = $pdf->getText();
+//        foreach(preg_split("/((\r?\n)|(\r\n?))/", $text) as $line){
+        foreach(preg_split('~\R~u', $text) as $line){
+            // do stuff with $line https://regex101.com/
+            if(preg_match('/[a-zA-Z]{3}\d{4}[ ][a-zA-Z0-9&@\-,\.\(\) \t]*/',$line,$matches)){
+            if(!preg_match('/\[[a-zA-Z]{3}\d{4}?/',$line)) {
+                $line = trim($line);
+                preg_match('/[a-zA-Z]{3}\d{4}/',$line,$matches);
+                preg_match('/[ ][a-zA-Z0-9&@\-,\.\(\) \t]*/',$line,$matches2);
+//                echo "<div><strong><pre>";
+//                echo $matches[0];
+//                echo $matches2[0];
+//                echo "</pre></strong></div>";
+
+//                $course = new Course();
+//                $course->course_code = $matches[0];
+//                $course->course_name = $matches2[0];
+//                $course->department = 0;
+//                $course->credits = 0;
+                //$course->save();
+            }
+            }
+            if(preg_match('/^[a-zA-Z0-9&@\-\.\,\(\)\[\} \t]*[ \t]*[-]{0,1}[ \t]*\d{2}\/\d{2}\/\d{4}[,][ \t]*[a-zA-Z]*[ \t]*\d{2}[:]\d{2}[ \t]*[-][ \t]*\d{2}[:][a-zA-Z0-9&@\-\.\,\(\)\[\} \t]*/',$line,$matches)){
+//                echo "<div><pre>";
+//                echo $line;
+//                echo "</pre></div>";
+            }
+        }
+
         echo "<pre>$text</pre>";
 
         //return redirect('/posts')->with('success', 'Post Saved Successfully');
