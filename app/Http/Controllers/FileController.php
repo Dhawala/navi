@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\File;
+use App\Schedule;
 use Illuminate\Http\Request;
 use Smalot\PdfParser\Parser;
 
@@ -82,18 +83,17 @@ class FileController extends Controller
 
         $text = $pdf->getText();
 //        foreach(preg_split("/((\r?\n)|(\r\n?))/", $text) as $line){
+        $course_buffer = '';
+
         foreach(preg_split('~\R~u', $text) as $line){
             // do stuff with $line https://regex101.com/
-            if(preg_match('/[a-zA-Z]{3}\d{4}[ ][a-zA-Z0-9&@\-,\.\(\) \t]*/',$line,$matches)){
+            if(preg_match('/(?P<code>[a-zA-Z]{3,4}\d{3,4})[ ](?P<name>[a-zA-Z0-9&@\-,\.\(\) ]*)[\t ]*/',$line,$course)){
             if(!preg_match('/\[[a-zA-Z]{3}\d{4}?/',$line)) {
-                $line = trim($line);
-                preg_match('/[a-zA-Z]{3}\d{4}/',$line,$matches);
-                preg_match('/[ ][a-zA-Z0-9&@\-,\.\(\) \t]*/',$line,$matches2);
-//                echo "<div><strong><pre>";
-//                echo $matches[0];
-//                echo $matches2[0];
-//                echo "</pre></strong></div>";
+               echo "<div><strong><pre>";
+                $course_buffer = $course;
 
+                var_dump($course_buffer);
+                echo "</pre></strong></div>";
 //                $course = new Course();
 //                $course->course_code = $matches[0];
 //                $course->course_name = $matches2[0];
@@ -102,14 +102,40 @@ class FileController extends Controller
                 //$course->save();
             }
             }
-            if(preg_match('/^[a-zA-Z0-9&@\-\.\,\(\)\[\} \t]*[ \t]*[-]{0,1}[ \t]*\d{2}\/\d{2}\/\d{4}[,][ \t]*[a-zA-Z]*[ \t]*\d{2}[:]\d{2}[ \t]*[-][ \t]*\d{2}[:][a-zA-Z0-9&@\-\.\,\(\)\[\} \t]*/',$line,$matches)){
-//                echo "<div><pre>";
-//                echo $line;
-//                echo "</pre></div>";
+
+            if(isset($course_buffer['code']) &&
+                preg_match('/^(?P<code>[a-zA-Z0-9&@\-\.\,\(\)\[\} ]*)[ \t]*'.
+                '(?P<language>[A-Z]{1})[\t ]*'.
+                '(?P<lab_info>\0|[a-zA-Z0-9&@\.\,\(\)\[\} ]*)[ \t]*[-]{0,1}[ \t]*'.
+                '(?P<day>\d{2})\/'.
+                '(?P<month>\d{2})\/'.
+                '(?P<year>\d{4})[,][ \t]*'.
+                '(?P<day_in_words>[a-zA-Z]*)[ \t]*'.
+                '(?P<from>\d{2}[:]\d{2})[ \t]*[-][ \t]*'.
+                '(?P<to>\d{2}[:]\d{2})[ \t]*'.
+                '(?P<center>[a-zA-Z0-9&@\-\.\,\(\)\[\}]*)[ \t]*/'
+                ,$line
+                ,$activity)
+            ){
+                echo "<div><pre>";
+                //echo $line;
+                var_dump($activity);
+                echo "</pre></div>";
+
+                $schedule = new Schedule();
+                $schedule->ac_code = $activity['code'];
+                $schedule->course_code = $course_buffer['code'];
+                $schedule->group = $activity['lab_info'];
+                $schedule->medium = $activity['language'];
+                $schedule->date = $activity['year'].'-'.$activity['month'].'-'.$activity['day'];
+                $schedule->start_time = $activity['from'];
+                $schedule->end_time = $activity['to'];
+                $schedule->centre = $activity['center'];
+                $schedule->save();
             }
         }
 
-        echo "<pre>$text</pre>";
+        //echo "<pre>$text</pre>";
 
         //return redirect('/posts')->with('success', 'Post Saved Successfully');
     }
