@@ -13,12 +13,13 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="scheduleTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
                             <tr>
                                 <th>Activity code</th>
                                 <th>course code</th>
+                                <th>course name</th>
                                 <th>date</th>
                                 <th>start time</th>
                                 <th>end time</th>
@@ -31,6 +32,7 @@
                             <tr>
                                 <th>Activity code</th>
                                 <th>course code</th>
+                                <th>course name</th>
                                 <th>date</th>
                                 <th>start time</th>
                                 <th>end time</th>
@@ -39,6 +41,7 @@
                             </tr>
                             </tfoot>
                             <tbody>
+{{--
                             @if(count($schedules)>0)
                                 @foreach($schedules as $schedule)
                                     <tr>
@@ -65,6 +68,7 @@
                                     </tr>
                                 @endforeach
                             @endif
+--}}
                             </tbody>
                         </table>
                     </div>
@@ -74,3 +78,24 @@
 
     </div>
 @endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#scheduleTable').DataTable( {
+                processing: true,
+                serverSide: true,
+                "ajax": 'data/schedules',
+                columns: [
+                    { data: 'ac_code', name: 'ac_code' },
+                    { data: 'course_code', name: 'course_code' },
+                    { data: 'ac_name', name: 'ac_name' },
+                    { data: 'date', name: 'date' },
+                    { data: 'start_time', name: 'start_time' },
+                    { data: 'end_time', name: 'end_time' },
+                    { data: 'room_id', name: 'room_id' },
+                    { data: 'action', orderable: false, searchable: false},
+                ]
+            } );
+        } );
+    </script>
+    @endsection

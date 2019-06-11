@@ -34,3 +34,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/cancel','ScheduleCancellationController@cancellationForm');
+
+
+//data table routes
+Route::get('/data/schedules', 'SchedulesController@data');

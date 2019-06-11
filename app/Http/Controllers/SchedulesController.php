@@ -8,6 +8,8 @@ use App\Location;
 use App\Room;
 use App\Schedule;
 use Illuminate\Http\Request;
+use DB;
+use Yajra\DataTables\DataTables;
 
 class SchedulesController extends Controller
 {
@@ -172,4 +174,18 @@ class SchedulesController extends Controller
         return redirect('/schedules')->with('success', 'deleted successfully');
 
     }
+
+    public function data(DataTables $datatables)
+    {
+        return $datatables->eloquent(Schedule::query())
+            ->editColumn('ac_code', function ($schedule) {
+                return '<a href="/schedules/'.$schedule->id.'">' . $schedule->ac_code . '</a>';
+            })
+            ->addColumn('action',function ($schedule){
+                return view('schedules.actions',compact('schedule'));
+            })
+            ->rawColumns(['ac_code', 'action'])
+            ->make(true);
+    }
+
 }

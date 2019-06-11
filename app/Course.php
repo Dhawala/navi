@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
-    use softDeletes;
+    use SoftDeletes;
 
     public function department(){
         return $this->hasOne('App\Department','name','department');
