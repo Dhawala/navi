@@ -16,7 +16,8 @@
         "laravel/tinker": "^1.0",
         "phpmailer/phpmailer": "^6.0",
         "smalot/pdfparser": "^0.14.0",
-        "unisharp/laravel-ckeditor": "^4.7"
+        "unisharp/laravel-ckeditor": "^4.7",
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
