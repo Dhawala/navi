@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
+use App\Batch;
 use App\Course;
 use App\File;
 use App\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Smalot\PdfParser\Parser;
 
 class FileController extends Controller
@@ -62,6 +64,12 @@ class FileController extends Controller
             //upload
             $path = $request->file('upload_file')->storeAs('public/uploads',$fileNameToStore);
 
+            $batch = new Batch();
+            $batch->name = $fileNameToStore;
+            $batch->user = Auth::user()->id;
+            $batch->save();
+
+
         }else{
             $fileNameToStore = 'noimage.png';
         }
@@ -76,6 +84,8 @@ class FileController extends Controller
 
         $file->ext = $extension;
 
+        $file->batch_id = $batch->id;
+
         $file->save();
 
         $parser = new Parser();
@@ -88,19 +98,21 @@ class FileController extends Controller
         $activity_set = [];
         foreach(preg_split('~\R~u', $text) as $line){
             // do stuff with $line https://regex101.com/
-            if(preg_match('/(?P<code>[a-zA-Z]{3,4}\d{3,4})[ ](?P<name>[a-zA-Z0-9&@\-,\.\(\) ]*)[\t ]*/',$line,$course)){
+            if(preg_match('/^[\t ]*(?P<code>[a-zA-Z]{3,4}\d{3,4})[\t ]*(?P<name>[a-zA-Z0-9&@\-,\.\(\) ]*)[\t ]*/',$line,$course)){
             if(!preg_match('/\[[a-zA-Z]{3}\d{4}?/',$line)) {
-               echo "<div><strong><pre>";
+              // echo "<div><strong><pre>";
                 $course_buffer = $course;
 
-//                var_dump($course_buffer);
+//               var_dump($course_buffer);
 //                echo "</pre></strong></div>";
-//                $course = new Course();
-//                $course->course_code = $matches[0];
-//                $course->course_name = $matches2[0];
-//                $course->department = 0;
-//                $course->credits = 0;
-                //$course->save();
+
+                $course = new Course();
+                $course->course_code = $course_buffer['code'];
+                $course->course_name = $course_buffer['name'];
+                $course->department = 0;
+                $course->credits = 0;
+                $course->batch_id = $batch->id;
+                $course->save();
             }
             }
 
@@ -123,46 +135,72 @@ class FileController extends Controller
 //                var_dump($activity);
 //                echo "</pre></div>";
 
-                $activity_set[$activity['name']]=$activity['name'];
+                //activity list
+                preg_match('/^[\t ]*'.
+                    '(?P<l1>[A-Z]?|)[a-z&@\- \t\0]*'.
+                    '(?P<l2>[A-Z]?|)[a-z&@\- \t\0]*'.
+                    '(?P<l3>[A-Z]?|)[a-z&@\- \t\0]*'.
+                    '(?P<l4>[A-Z]?|)[a-z&@\- \t\0]*'.
+                    '(?P<l5>[A-Z]?|)[a-zA-Z&@\-\(\) \t\0]*'.
+                    '(?P<number>\d{1,2}|)[a-z&@\- \t\0]*'.
+                    '(?P<session>\([a-zA-Z \t]*'.
+                    '(?<session_no>\d{1,2}|)\)?|)[\t\0 ]*/',trim($activity['name']),$first_letters);
 
-//                $schedule = new Schedule();
-//                $schedule->ac_code = 0;
-//                $schedule->room_id = 0;
-//                $schedule->ac_name = $activity['name'];
-//                $schedule->course_code = $course_buffer['code'];
-//                $schedule->group = $activity['lab_info'];
-//                $schedule->medium = $activity['language'];
-//                $schedule->date = $activity['year'].'-'.$activity['month'].'-'.$activity['day'];
-//                $schedule->start_time = $activity['from'];
-//                $schedule->end_time = $activity['to'];
-//                $schedule->centre = $activity['center'];
-//                $schedule->save();
+                //create unique code for activity
+                $activity_code =(isset($first_letters['l1'])?$first_letters['l1']:'').
+                    (isset($first_letters['l2'])?$first_letters['l2']:'').
+                    (isset($first_letters['l3'])?$first_letters['l3']:'').
+                    (isset($first_letters['l4'])?$first_letters['l4']:'').
+                    (isset($first_letters['l5'])?$first_letters['l5']:'').
+                    (isset($first_letters['number'])?$first_letters['number']:'').
+                    (isset($first_letters['session'])&&$first_letters['session']!=''? '(S':'').
+                    (isset($first_letters['session_no'])? $first_letters['session_no'].')':'');
+
+                //collect all activities in to an array this is important this will remove duplicates.
+                $activity_set[$activity_code]=$first_letters;
+                //end activity list preg_match
+
+                $schedule = new Schedule();
+                $schedule->ac_code = $activity_code;
+                $schedule->room_id = 0;
+                $schedule->ac_name = $activity['name'];
+                $schedule->course_code = $course_buffer['code'];
+                $schedule->group = $activity['lab_info'];
+                $schedule->medium = $activity['language'];
+                $schedule->date = $activity['year'].'-'.$activity['month'].'-'.$activity['day'];
+                $schedule->start_time = $activity['from'];
+                $schedule->end_time = $activity['to'];
+                $schedule->centre = $activity['center'];
+                $schedule->batch_id = $batch->id;
+                $schedule->save();
             }
         }
 
-        echo "<pre>";
-        var_dump($activity_set);
-        echo"</pre>";
+//        echo "<pre>";
+//        var_dump($activity_set);
+//        echo"</pre>";
 
         foreach ($activity_set as $act){
-            preg_match('/^(?P<letter1>|[A-Z])[a-z \t]*'.
-                '(?P<letter2>|[A-Z])[a-z \t]*'.
-                '(?P<letter3>|[A-Z])[a-z \t]*'.
-                '(?P<number>\d{1})[ \t]*'.
-                '(?P<session>\([a-zA-Z \t]*'.
-                '(?<session_no>\d{1,2})\)|)/',$act,$first_letters);
-            var_dump($first_letters);
-            echo $first_letters['letter1'];
+            echo "<pre>";
+            //var_dump($first_letters);
+            //echo $first_letters['l_two'];
             $actv= new Activity();
-            echo $actv->ac_code =
-                isset($first_letters['letter1'])?$first_letters['letter1']:''.
-                isset($first_letters['letter2'])?$first_letters['letter2']:''.
-                isset($first_letters['letter3'])?$first_letters['letter3']:''.
-                isset($first_letters['number'])?$first_letters['number']:''.
-                ((isset($first_letters['session'])
-                    && is_array($first_letters['session']))?
-                    $first_letters['session']:'')
-            ;
+
+             echo $actv->ac_code =
+                (isset($act['l1'])?$act['l1']:'').
+                (isset($act['l2'])?$act['l2']:'').
+                (isset($act['l3'])?$act['l3']:'').
+                (isset($act['l4'])?$act['l4']:'').
+                (isset($act['l5'])?$act['l5']:'').
+                (isset($act['number'])?$act['number']:'').
+                (isset($act['session'])&&$act['session']!=''? '(S':'').
+                (isset($act['session_no'])? $act['session_no'].')':'')
+             ;
+            echo $actv->ac_name = $act[0];
+            $actv->batch_id = 0;
+            $actv->batch_id= $batch->id;
+            $actv->save();
+
         }
         //echo "<pre>$text</pre>";
 
