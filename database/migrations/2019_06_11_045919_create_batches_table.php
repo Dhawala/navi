@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateTableScheduleAddColumn extends Migration
+class CreateBatchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class UpdateTableScheduleAddColumn extends Migration
      */
     public function up()
     {
-        Schema::table('schedules', function (Blueprint $table) {
-            $table->string('ac_name');
+        Schema::create('batches', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->integer('user');
+            $table->softDeletes();
+            $table->timestamps();
         });
-
     }
 
     /**
@@ -26,10 +29,6 @@ class UpdateTableScheduleAddColumn extends Migration
      */
     public function down()
     {
-        //
-        Schema::table('schedules', function (Blueprint $table) {
-            $table->dropColumn('ac_name');
-        });
-
+        Schema::dropIfExists('batches');
     }
 }

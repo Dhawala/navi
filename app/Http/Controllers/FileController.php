@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Course;
 use App\File;
 use App\Schedule;
@@ -84,7 +85,7 @@ class FileController extends Controller
         $text = $pdf->getText();
 //        foreach(preg_split("/((\r?\n)|(\r\n?))/", $text) as $line){
         $course_buffer = '';
-
+        $activity_set = [];
         foreach(preg_split('~\R~u', $text) as $line){
             // do stuff with $line https://regex101.com/
             if(preg_match('/(?P<code>[a-zA-Z]{3,4}\d{3,4})[ ](?P<name>[a-zA-Z0-9&@\-,\.\(\) ]*)[\t ]*/',$line,$course)){
@@ -92,8 +93,8 @@ class FileController extends Controller
                echo "<div><strong><pre>";
                 $course_buffer = $course;
 
-                var_dump($course_buffer);
-                echo "</pre></strong></div>";
+//                var_dump($course_buffer);
+//                echo "</pre></strong></div>";
 //                $course = new Course();
 //                $course->course_code = $matches[0];
 //                $course->course_name = $matches2[0];
@@ -104,7 +105,7 @@ class FileController extends Controller
             }
 
             if(isset($course_buffer['code']) &&
-                preg_match('/^(?P<code>[a-zA-Z0-9&@\-\.\,\(\)\[\} ]*)[ \t]*'.
+                preg_match('/^(?P<name>[a-zA-Z0-9&@\-\.\,\(\)\[\} ]*)[ \t]*'.
                 '(?P<language>[A-Z]{1})[\t ]*'.
                 '(?P<lab_info>\0|[a-zA-Z0-9&@\.\,\(\)\[\} ]*)[ \t]*[-]{0,1}[ \t]*'.
                 '(?P<day>\d{2})\/'.
@@ -117,24 +118,52 @@ class FileController extends Controller
                 ,$line
                 ,$activity)
             ){
-                echo "<div><pre>";
-                //echo $line;
-                var_dump($activity);
-                echo "</pre></div>";
+//                echo "<div><pre>";
+//                //echo $line;
+//                var_dump($activity);
+//                echo "</pre></div>";
 
-                $schedule = new Schedule();
-                $schedule->ac_code = $activity['code'];
-                $schedule->course_code = $course_buffer['code'];
-                $schedule->group = $activity['lab_info'];
-                $schedule->medium = $activity['language'];
-                $schedule->date = $activity['year'].'-'.$activity['month'].'-'.$activity['day'];
-                $schedule->start_time = $activity['from'];
-                $schedule->end_time = $activity['to'];
-                $schedule->centre = $activity['center'];
-                $schedule->save();
+                $activity_set[$activity['name']]=$activity['name'];
+
+//                $schedule = new Schedule();
+//                $schedule->ac_code = 0;
+//                $schedule->room_id = 0;
+//                $schedule->ac_name = $activity['name'];
+//                $schedule->course_code = $course_buffer['code'];
+//                $schedule->group = $activity['lab_info'];
+//                $schedule->medium = $activity['language'];
+//                $schedule->date = $activity['year'].'-'.$activity['month'].'-'.$activity['day'];
+//                $schedule->start_time = $activity['from'];
+//                $schedule->end_time = $activity['to'];
+//                $schedule->centre = $activity['center'];
+//                $schedule->save();
             }
         }
 
+        echo "<pre>";
+        var_dump($activity_set);
+        echo"</pre>";
+
+        foreach ($activity_set as $act){
+            preg_match('/^(?P<letter1>|[A-Z])[a-z \t]*'.
+                '(?P<letter2>|[A-Z])[a-z \t]*'.
+                '(?P<letter3>|[A-Z])[a-z \t]*'.
+                '(?P<number>\d{1})[ \t]*'.
+                '(?P<session>\([a-zA-Z \t]*'.
+                '(?<session_no>\d{1,2})\)|)/',$act,$first_letters);
+            var_dump($first_letters);
+            echo $first_letters['letter1'];
+            $actv= new Activity();
+            echo $actv->ac_code =
+                isset($first_letters['letter1'])?$first_letters['letter1']:''.
+                isset($first_letters['letter2'])?$first_letters['letter2']:''.
+                isset($first_letters['letter3'])?$first_letters['letter3']:''.
+                isset($first_letters['number'])?$first_letters['number']:''.
+                ((isset($first_letters['session'])
+                    && is_array($first_letters['session']))?
+                    $first_letters['session']:'')
+            ;
+        }
         //echo "<pre>$text</pre>";
 
         //return redirect('/posts')->with('success', 'Post Saved Successfully');
