@@ -106,11 +106,18 @@ class FileController extends Controller
 //               var_dump($course_buffer);
 //                echo "</pre></strong></div>";
 
+                preg_match('/^[\t ]*'.
+                    '(?P<department>[A-Z]{2}|)'.
+                    '(?P<category>[A-Z]?|)'.
+                    '(?P<slqf>[0-9]?|)'.
+                    '(?P<credits>[0-9A-Z]?|)'.
+                    '(?P<number>[0-9]{2})/',$course_buffer['code'],$course_info );
+
                 $course = new Course();
                 $course->course_code = $course_buffer['code'];
                 $course->course_name = $course_buffer['name'];
-                $course->department = 0;
-                $course->credits = 0;
+                $course->department = $course_info['department'];
+                $course->credits = $course_info['credits'];
                 $course->batch_id = $batch->id;
                 $course->save();
             }
