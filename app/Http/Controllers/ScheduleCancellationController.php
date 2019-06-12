@@ -19,7 +19,7 @@ class ScheduleCancellationController extends Controller
 
     public function cancellationForm(){
         $allocationCancellations = AllocationCancellation::all();
-        return $allocationCancellations;
+        return view('cancellations.index',compact('allocationCancellations'));
     }
     public function cancel(){
         return redirect('');

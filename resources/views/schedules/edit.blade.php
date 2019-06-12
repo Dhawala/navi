@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('content')
-    <a href="/schedule" class=""><i class="fa fa-arrow-alt-circle-left"></i> Go Back </a>
+    <a href="/schedules" class=""><i class="fa fa-arrow-alt-circle-left"></i> Go Back </a>
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">Edit schedule</h1>
 

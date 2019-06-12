@@ -20,7 +20,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-        <a class="nav-link" href="/cancleallocations">
+        <a class="nav-link" href="/cancel">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Cancel Allocation</span></a>
     </li>

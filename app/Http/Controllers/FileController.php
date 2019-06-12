@@ -6,9 +6,12 @@ use App\Activity;
 use App\Batch;
 use App\Course;
 use App\File;
+use App\Lecturer;
 use App\Schedule;
+use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Psy\CodeCleaner\LeavePsyshAlonePass;
 use Smalot\PdfParser\Parser;
 
 class FileController extends Controller
@@ -96,7 +99,23 @@ class FileController extends Controller
 //        foreach(preg_split("/((\r?\n)|(\r\n?))/", $text) as $line){
         $course_buffer = '';
         $activity_set = [];
+        $lecturer_set = [];
         foreach(preg_split('~\R~u', $text) as $line){
+            echo"<pre>";
+            echo ($line);
+
+            if(preg_match('/^([\t ]*|)'.
+                '(?P<name>[a-zA-Z\.\-@& ]*|)[\t ]*(|ext.)[\t ]*('.
+                '(?P<ac_ext>\d{3})[\t\/ ]*'.
+                '(?P<ac_phone>[0-9]*)|'.
+                '(?P<phone>[0-9]*)[\t\/ ]*'.
+                '(?P<ext>\d{3}))[\t\/ ]*'.
+                '(?P<email>([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@[a-z0-9\.]*)[\s]*/',
+                $line,
+                $lecturer_info)){
+                $lecturer_set[$lecturer_info['name']]=$lecturer_info;
+            }
+
             // do stuff with $line https://regex101.com/
             if(preg_match('/^[\t ]*(?P<code>[a-zA-Z]{3,4}\d{3,4})[\t ]*(?P<name>[a-zA-Z0-9&@\-,\.\(\) ]*)[\t ]*/',$line,$course)){
             if(!preg_match('/\[[a-zA-Z]{3}\d{4}?/',$line)) {
@@ -119,7 +138,7 @@ class FileController extends Controller
                 $course->department = $course_info['department'];
                 $course->credits = $course_info['credits'];
                 $course->batch_id = $batch->id;
-                $course->save();
+                //$course->save();
             }
             }
 
@@ -179,7 +198,7 @@ class FileController extends Controller
                 $schedule->end_time = $activity['to'];
                 $schedule->centre = $activity['center'];
                 $schedule->batch_id = $batch->id;
-                $schedule->save();
+                //$schedule->save();
             }
         }
 
@@ -206,7 +225,20 @@ class FileController extends Controller
             echo $actv->ac_name = $act[0];
             $actv->batch_id = 0;
             $actv->batch_id= $batch->id;
-            $actv->save();
+            //$actv->save();
+
+        }
+        foreach ($lecturer_set as $lecturer_info){
+
+            $faker = Factory::create();
+            $lecturer = new Lecturer();
+            $lecturer->emp_no = $faker->unique()->randomNumber(4);
+            $lecturer->nic = $faker->unique()->randomNumber(9).'V';
+            $lecturer->name = $lecturer_info['name'];
+            $lecturer->email = $lecturer_info['email'];
+            $lecturer->contact = $lecturer_info['ac_phone'].$lecturer_info['phone'];
+            $lecturer->ext = $lecturer_info['ext'].$lecturer_info['ac_ext'];
+            $lecturer->save();
 
         }
         //echo "<pre>$text</pre>";
