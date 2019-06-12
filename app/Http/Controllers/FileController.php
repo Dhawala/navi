@@ -101,8 +101,8 @@ class FileController extends Controller
         $activity_set = [];
         $lecturer_set = [];
         foreach(preg_split('~\R~u', $text) as $line){
-            echo"<pre>";
-            echo ($line);
+
+            //collect lecturers to an array this removes duplicates.
 
             if(preg_match('/^([\t ]*|)'.
                 '(?P<name>[a-zA-Z\.\-@& ]*|)[\t ]*(|ext.)[\t ]*('.
@@ -117,8 +117,11 @@ class FileController extends Controller
             }
 
             // do stuff with $line https://regex101.com/
-            if(preg_match('/^[\t ]*(?P<code>[a-zA-Z]{3,4}\d{3,4})[\t ]*(?P<name>[a-zA-Z0-9&@\-,\.\(\) ]*)[\t ]*/',$line,$course)){
-            if(!preg_match('/\[[a-zA-Z]{3}\d{4}?/',$line)) {
+            if(preg_match('/^[\t ]*'.
+                '(?P<code>[a-zA-Z]{3,4}\d{3,4})[\t ]*'.
+                '(?P<name>[a-zA-Z0-9&@\-,\.\(\) ]*)[\t ]*/',$line,$course)){
+            //if course code exists
+                if(!preg_match('/\[[a-zA-Z]{3}\d{4}?/',$line)) {
               // echo "<div><strong><pre>";
                 $course_buffer = $course;
 
@@ -138,7 +141,7 @@ class FileController extends Controller
                 $course->department = $course_info['department'];
                 $course->credits = $course_info['credits'];
                 $course->batch_id = $batch->id;
-                //$course->save();
+                $course->save();
             }
             }
 
@@ -198,7 +201,7 @@ class FileController extends Controller
                 $schedule->end_time = $activity['to'];
                 $schedule->centre = $activity['center'];
                 $schedule->batch_id = $batch->id;
-                //$schedule->save();
+                $schedule->save();
             }
         }
 
@@ -206,6 +209,7 @@ class FileController extends Controller
 //        var_dump($activity_set);
 //        echo"</pre>";
 
+        //activity list
         foreach ($activity_set as $act){
             echo "<pre>";
             //var_dump($first_letters);
@@ -225,9 +229,10 @@ class FileController extends Controller
             echo $actv->ac_name = $act[0];
             $actv->batch_id = 0;
             $actv->batch_id= $batch->id;
-            //$actv->save();
+            $actv->save();
 
         }
+        //lecturers
         foreach ($lecturer_set as $lecturer_info){
 
             $faker = Factory::create();
@@ -238,12 +243,12 @@ class FileController extends Controller
             $lecturer->email = $lecturer_info['email'];
             $lecturer->contact = $lecturer_info['ac_phone'].$lecturer_info['phone'];
             $lecturer->ext = $lecturer_info['ext'].$lecturer_info['ac_ext'];
-            $lecturer->save();
+            //$lecturer->save();
 
         }
         //echo "<pre>$text</pre>";
 
-        //return redirect('/posts')->with('success', 'Post Saved Successfully');
+        return redirect('/file')->with('success', 'File was saved Successfully');
     }
 
     /**

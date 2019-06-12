@@ -30,6 +30,7 @@ Route::resource('/schedules', 'SchedulesController');
 Route::resource('/students', 'StudentsController');
 Route::resource('/allocations', 'AllocationsController');
 Route::resource('/file', 'FileController');
+Route::resource('/test', 'TestController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
