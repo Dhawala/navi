@@ -16,6 +16,6 @@ class AllocationCancellation extends Model
     }
 
     public function allocation(){
-        return $this->hasOne('App\Allocation', 'id','Allocation_id');
+        return $this->belongsTo('App\Allocation', 'id','Allocation_id');
     }
 }

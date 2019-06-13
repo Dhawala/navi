@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="enrollmentsTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
                             <tr>
@@ -31,28 +31,28 @@
                             </tr>
                             </tfoot>
                             <tbody>
-                            @if(count($enrollments)>0)
-                                @foreach($enrollments as $enrollment)
-                                    <tr>
-                                        <td><a href="/enrollments/{{$enrollment->id}}">{{$enrollment->sno}}</a></td>
-                                        <td>{{$enrollment->course_code}}</td>
-                                        <td>
-                                            @if(!Auth::guest())
-                                                <a href="/enrollments/{{$enrollment->id}}/edit"
-                                                   class="btn btn-primary btn-sm btn-circle"><i
-                                                            class="fa fa-edit"></i></a>
-                                                <form action="/enrollments/{{$enrollment->id}}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" id="submit"
-                                                            class="btn btn-danger btn-sm btn-circle"><i
-                                                                class="fa fa-trash "></i></button>
-                                                </form>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
+                            {{--@if(count($enrollments)>0)--}}
+                                {{--@foreach($enrollments as $enrollment)--}}
+                                    {{--<tr>--}}
+                                        {{--<td><a href="/enrollments/{{$enrollment->id}}">{{$enrollment->sno}}</a></td>--}}
+                                        {{--<td>{{$enrollment->course_code}}</td>--}}
+                                        {{--<td>--}}
+                                            {{--@if(!Auth::guest())--}}
+                                                {{--<a href="/enrollments/{{$enrollment->id}}/edit"--}}
+                                                   {{--class="btn btn-primary btn-sm btn-circle"><i--}}
+                                                            {{--class="fa fa-edit"></i></a>--}}
+                                                {{--<form action="/enrollments/{{$enrollment->id}}" method="POST" class="d-inline">--}}
+                                                    {{--@csrf--}}
+                                                    {{--@method('DELETE')--}}
+                                                    {{--<button type="submit" id="submit"--}}
+                                                            {{--class="btn btn-danger btn-sm btn-circle"><i--}}
+                                                                {{--class="fa fa-trash "></i></button>--}}
+                                                {{--</form>--}}
+                                            {{--@endif--}}
+                                        {{--</td>--}}
+                                    {{--</tr>--}}
+                                {{--@endforeach--}}
+                            {{--@endif--}}
                             </tbody>
                         </table>
                     </div>
@@ -61,4 +61,21 @@
         </div>
 
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#enrollmentsTable').DataTable( {
+                processing: true,
+                serverSide: true,
+                "ajax": 'data/enrollments',
+                columns: [
+                    { data: 'sno' },
+                    { data: 'course_code' },
+                    { data: 'action', orderable: false, searchable: false},
+                ]
+            } );
+        } );
+
+    </script>
 @endsection

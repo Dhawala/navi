@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\Enrolment;
+use App\Lecturer;
 use App\Student;
 use App\Student_login;
 use App\Test;
 use App\User;
 use Faker\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class TestController extends Controller
 {
@@ -56,6 +58,21 @@ class TestController extends Controller
 //            }
 //
 //        }
+
+//        $lecturers = Lecturer::all();
+//
+//        foreach ($lecturers as $lecturer){
+//
+//            $user = new User();
+//            $user->name = $lecturer->name;
+//            $user->password = Hash::make('test');
+//            $user->email = $lecturer->email;
+//            $user->role = 'lecturer';
+//            //$user->save();
+//
+//        }
+
+
 
     }
 

@@ -6,6 +6,7 @@ use App\Course;
 use App\Enrolment;
 use App\Student;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class EnrollmentsController extends Controller
 {
@@ -131,4 +132,18 @@ class EnrollmentsController extends Controller
         return redirect('/enrollments')->with('success','Deleted successfully');
 
     }
+
+    public function data(DataTables $datatables)
+    {
+        return $datatables->eloquent(Enrolment::query())
+            ->editColumn('sno', function ($enrollment) {
+                return '<a href="/enrollments/'.$enrollment->id.'">' . $enrollment->sno . '</a>';
+            })
+            ->addColumn('action',function ($enrollment){
+                return view('enrollments.actions',compact('enrollment'));
+            })
+            ->rawColumns(['sno', 'action'])
+            ->make(true);
+    }
+
 }

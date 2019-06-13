@@ -121,7 +121,7 @@
     * The callback parameter executes the initMap() function
     -->
     <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCj-n5QkbTBNJz-ZUs3JzBxAP6Ko_r97v4&callback=initMap">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7jUUkegCF8PMXANQraSgm9XGp9oBAvyI&callback=initMap">
     </script>
 
 @endsection

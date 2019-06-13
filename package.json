@@ -27,7 +27,9 @@
         "bootstrap-select": "^1.13.9",
         "font-awesome": "^4.7.0",
         "gijgo": "^1.9.13",
+        "laravel-echo": "^1.5.3",
         "npm": "^6.9.0",
+        "pusher-js": "^4.4.0",
         "startbootstrap-sb-admin-2": "^4.0.3",
         "tempusdominus-bootstrap-4": "^5.1.2"
     }

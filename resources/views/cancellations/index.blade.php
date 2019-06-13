@@ -13,26 +13,31 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="allocationCancellationTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
                             <tr>
                                 <th>Emp number</th>
-                                <th>schedule</th>
+                                <th>name</th>
+                                <th>schedule id</th>
+                                <th>schedule info</th>
                                 <th>class room</th>
-                                <th>Action</th>
+                                <th>Cancel</th>
                             </tr>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
                                 <th>Emp number</th>
-                                <th>schedule</th>
+                                <th>name</th>
+                                <th>schedule id</th>
+                                <th>schedule info</th>
                                 <th>class room</th>
-                                <th>Action</th>
+                                <th>Cancel</th>
                             </tr>
                             </tfoot>
                             <tbody>
+{{--
                             @if(count($allocationCancellations)>0)
                                 @foreach($allocationCancellations as $allocation)
                                     <tr>
@@ -56,6 +61,7 @@
                                     </tr>
                                 @endforeach
                             @endif
+--}}
                             </tbody>
                         </table>
                     </div>
@@ -64,4 +70,24 @@
         </div>
 
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#allocationCancellationTable').DataTable( {
+                processing: true,
+                serverSide: true,
+                "ajax": 'data/allocations',
+                columns: [
+                    { data: 'emp_no' },
+                    { data: 'lecturer.name' },
+                    { data: 'schedule_id' },
+                    { data: 'schedule_info' },
+                    { data: 'room_id' },
+                    { data: 'cancel_alloc' },
+                ]
+            } );
+        } );
+
+    </script>
 @endsection

@@ -36,3 +36,8 @@
         </div>
     </div>
 @endsection
+@section('script')
+    <script>
+        $('select').selectpicker();
+    </script>
+@endsection

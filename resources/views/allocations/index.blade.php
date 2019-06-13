@@ -13,13 +13,16 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="allocTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
                             <tr>
                                 <th>Emp number</th>
+                                <th>name</th>
+                                <th>schedule id</th>
                                 <th>schedule</th>
                                 <th>class room</th>
+                                <th>cancel</th>
                                 <th>Action</th>
                             </tr>
                             </tr>
@@ -27,35 +30,38 @@
                             <tfoot>
                             <tr>
                                 <th>Emp number</th>
+                                <th>name</th>
+                                <th>schedule id</th>
                                 <th>schedule</th>
                                 <th>class room</th>
+                                <th>cancel</th>
                                 <th>Action</th>
                             </tr>
                             </tfoot>
                             <tbody>
-                            @if(count($allocations)>0)
-                                @foreach($allocations as $allocation)
-                                    <tr>
-                                        <td><a href="/allocations/{{$allocation->id}}">{{$allocation->emp_no}}</a></td>
-                                        <td>{{$allocation->schedule_id}}</td>
-                                        <td>{{$allocation->room_id}}</td>
-                                        <td>
-                                            @if(!Auth::guest())
-                                                <a href="/allocations/{{$allocation->id}}/edit"
-                                                   class="btn btn-primary btn-sm btn-circle"><i
-                                                            class="fa fa-edit"></i></a>
-                                                <form action="/allocations/{{$allocation->id}}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" id="submit"
-                                                            class="btn btn-danger btn-sm btn-circle"><i
-                                                                class="fa fa-trash "></i></button>
-                                                </form>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
+                            {{--@if(count($allocations)>0)--}}
+                                {{--@foreach($allocations as $allocation)--}}
+                                    {{--<tr>--}}
+                                        {{--<td><a href="/allocations/{{$allocation->id}}">{{$allocation->emp_no}}</a></td>--}}
+                                        {{--<td>{{$allocation->schedule_id}}</td>--}}
+                                        {{--<td>{{$allocation->room_id}}</td>--}}
+                                        {{--<td>--}}
+                                            {{--@if(!Auth::guest())--}}
+                                                {{--<a href="/allocations/{{$allocation->id}}/edit"--}}
+                                                   {{--class="btn btn-primary btn-sm btn-circle"><i--}}
+                                                            {{--class="fa fa-edit"></i></a>--}}
+                                                {{--<form action="/allocations/{{$allocation->id}}" method="POST" class="d-inline">--}}
+                                                    {{--@csrf--}}
+                                                    {{--@method('DELETE')--}}
+                                                    {{--<button type="submit" id="submit"--}}
+                                                            {{--class="btn btn-danger btn-sm btn-circle"><i--}}
+                                                                {{--class="fa fa-trash "></i></button>--}}
+                                                {{--</form>--}}
+                                            {{--@endif--}}
+                                        {{--</td>--}}
+                                    {{--</tr>--}}
+                                {{--@endforeach--}}
+                            {{--@endif--}}
                             </tbody>
                         </table>
                     </div>
@@ -64,4 +70,25 @@
         </div>
 
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#allocTable').DataTable( {
+                processing: true,
+                serverSide: true,
+                "ajax": 'data/allocations',
+                columns: [
+                    { data: 'emp_no' },
+                    { data: 'lecturer.name' },
+                    { data: 'schedule_id' },
+                    { data: 'schedule_info' },
+                    { data: 'room_id' },
+                    { data: 'cancel_alloc' },
+                    { data: 'action', orderable: false, searchable: false},
+                ]
+            } );
+        } );
+
+    </script>
 @endsection

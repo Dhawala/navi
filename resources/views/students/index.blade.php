@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="studentsTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
                             <tr>
@@ -39,32 +39,32 @@
                             </tr>
                             </tfoot>
                             <tbody>
-                            @if(count($students)>0)
-                                @foreach($students as $student)
-                                    <tr>
-                                        <td><a href="/students/{{$student->id}}">{{$student->sno}}</a></td>
-                                        <td>{{$student->reg_no}}</td>
-                                        <td>{{$student->nic}}</td>
-                                        <td>{{$student->name}}</td>
-                                        <td>{{$student->email}}</td>
-                                        <td>{{$student->contact}}</td>
-                                        <td>
-                                            @if(!Auth::guest())
-                                                <a href="/students/{{$student->id}}/edit"
-                                                   class="btn btn-primary btn-sm btn-circle"><i
-                                                            class="fa fa-edit"></i></a>
-                                                <form action="/students/{{$student->id}}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" id="submit"
-                                                            class="btn btn-danger btn-sm btn-circle"><i
-                                                                class="fa fa-trash "></i></button>
-                                                </form>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
+                            {{--@if(count($students)>0)--}}
+                                {{--@foreach($students as $student)--}}
+                                    {{--<tr>--}}
+                                        {{--<td><a href="/students/{{$student->id}}">{{$student->sno}}</a></td>--}}
+                                        {{--<td>{{$student->reg_no}}</td>--}}
+                                        {{--<td>{{$student->nic}}</td>--}}
+                                        {{--<td>{{$student->name}}</td>--}}
+                                        {{--<td>{{$student->email}}</td>--}}
+                                        {{--<td>{{$student->contact}}</td>--}}
+                                        {{--<td>--}}
+                                            {{--@if(!Auth::guest())--}}
+                                                {{--<a href="/students/{{$student->id}}/edit"--}}
+                                                   {{--class="btn btn-primary btn-sm btn-circle"><i--}}
+                                                            {{--class="fa fa-edit"></i></a>--}}
+                                                {{--<form action="/students/{{$student->id}}" method="POST" class="d-inline">--}}
+                                                    {{--@csrf--}}
+                                                    {{--@method('DELETE')--}}
+                                                    {{--<button type="submit" id="submit"--}}
+                                                            {{--class="btn btn-danger btn-sm btn-circle"><i--}}
+                                                                {{--class="fa fa-trash "></i></button>--}}
+                                                {{--</form>--}}
+                                            {{--@endif--}}
+                                        {{--</td>--}}
+                                    {{--</tr>--}}
+                                {{--@endforeach--}}
+                            {{--@endif--}}
                             </tbody>
                         </table>
                     </div>
@@ -74,3 +74,24 @@
 
     </div>
 @endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#studentsTable').DataTable( {
+                processing: true,
+                serverSide: true,
+                "ajax": 'data/students',
+                columns: [
+                    { data: 'sno' },
+                    { data: 'reg_no' },
+                    { data: 'nic' },
+                    { data: 'name' },
+                    { data: 'email' },
+                    { data: 'contact' },
+                    { data: 'action', orderable: false, searchable: false},
+                ]
+            } );
+        } );
+
+    </script>
+    @endsection

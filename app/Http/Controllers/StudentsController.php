@@ -7,6 +7,7 @@ use App\Student_login;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Validation\Rule;
+use Yajra\DataTables\DataTables;
 
 class StudentsController extends Controller
 {
@@ -175,4 +176,18 @@ class StudentsController extends Controller
         return redirect('/students')->with('success','deleted Successfully');
 
     }
+
+    public function data(DataTables $datatables)
+    {
+        return $datatables->eloquent(Student::query())
+            ->editColumn('sno', function ($student) {
+                return '<a href="/students/'.$student->id.'">' . $student->sno . '</a>';
+            })
+            ->addColumn('action',function ($student){
+                return view('students.actions',compact('student'));
+            })
+            ->rawColumns(['sno', 'action'])
+            ->make(true);
+    }
+
 }

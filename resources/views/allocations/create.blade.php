@@ -21,7 +21,7 @@
                                 <label>Schedule id</label>
                                 <select class="form-control" name="schedule_id" id="schedule_id" data-live-search="true">
                                     @foreach($schedules as $schedule)
-                                        <option value="{{$schedule->id}}">{{$schedule->id}}-{{$schedule->course_code}}-{{$schedule->ac_code}}-{{$schedule->date}}</option>
+                                        <option value="{{$schedule->id}}">{{$schedule->id}}-{{$schedule->course_code}}-{{$schedule->ac_name}}-{{$schedule->ac_code}}-{{$schedule->medium}}-{{$schedule->group}}-{{$schedule->date}}</option>
                                     @endforeach
                                 </select>
                                 <label>class room</label>

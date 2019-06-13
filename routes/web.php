@@ -34,8 +34,13 @@ Route::resource('/test', 'TestController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/cancel','ScheduleCancellationController@cancellationForm');
+Route::get('/cancel','ScheduleCancellationController@index');
+Route::get('/cancel/{id}','ScheduleCancellationController@cancellationForm');
+Route::put('/cancel/{id}','ScheduleCancellationController@cancelRequest');
 
 
 //data table routes
 Route::get('/data/schedules', 'SchedulesController@data');
+Route::get('/data/students', 'StudentsController@data');
+Route::get('/data/enrollments', 'EnrollmentsController@data');
+Route::get('/data/allocations', 'AllocationsController@data');

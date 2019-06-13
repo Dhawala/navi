@@ -7,6 +7,7 @@ use App\Lecturer;
 use App\Room;
 use App\Schedule;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class AllocationsController extends Controller
 {
@@ -129,4 +130,30 @@ class AllocationsController extends Controller
         return redirect('/allocations')->with('success','updated successfully');
 
     }
+
+    public function data(DataTables $datatables)
+    {
+        return $datatables->eloquent(Allocation::query()->with('lecturer','schedule','room','cancellation'))
+            ->editColumn('emp_no', function ($allocation) {
+                return '<a href="/allocations/'.$allocation->id.'">' . $allocation->emp_no . '</a>';
+            })
+            ->addColumn('schedule_info', function ($allocation) {
+                return $allocation->schedule->course_code.'-'.$allocation->schedule->ac_name.'-'.$allocation->schedule->date;
+            })
+            ->addColumn('cancel_alloc', function ($allocation) {
+                if($allocation->cancellation!=null && $allocation->cancellation->approved==0 ){
+                    return "<a class=\"btn btn-warning btn-sm\"> Cancellation Requested </a>";
+                }
+                if($allocation->cancellation!=null && $allocation->cancellation->approved==1 ){
+                    return "<a class=\"btn btn-primary btn-sm\"> Canceled ! </a>";
+                }
+                return '<a class="btn btn-danger btn-sm" href="/cancel/'.$allocation->id.'">Cancel</a>';
+            })
+            ->addColumn('action',function ($allocation){
+                return view('allocations.actions',compact('allocation'));
+            })
+            ->rawColumns(['emp_no','cancel_alloc', 'action'])
+            ->make(true);
+    }
+
 }

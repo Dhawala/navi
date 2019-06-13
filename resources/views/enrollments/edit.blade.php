@@ -16,13 +16,13 @@
                                 <label>Student Number</label>
                                 <select class="form-control" name="sno" id="sno" data-live-search="true">
                                     @foreach($students as $student)
-                                        <option value="{{$student->sno}}"{{($student->sno==$enrolment->sno?'selected':'')}}>{{$student->sno}}</option>
+                                        <option value="{{$student->sno}}"{{($student->sno==$enrollment->sno?'selected':'')}}>{{$student->sno}}</option>
                                     @endforeach
                                 </select>
                                 <label>Course Code</label>
                                 <select class="form-control" name="course_code" id="course_code" data-live-search="true">
                                     @foreach($courses as $course)
-                                        <option value="{{$course->course_code}}"{{($student->course_code==$enrolment->course_code?'selected':'')}}>{{$course->course_code}}</option>
+                                        <option value="{{$course->course_code}}"{{($student->course_code==$enrollment->course_code?'selected':'')}}>{{$course->course_code}}</option>
                                     @endforeach
                                 </select>
 
@@ -37,3 +37,8 @@
         </div>
     </div>
 @endsection
+@section('script')
+    <script>
+        $('select').selectpicker();
+    </script>
+    @endsection
