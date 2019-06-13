@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Allocation;
 use App\AllocationCancellation;
+use App\Events\EventTrigger;
+use App\Schedule;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -22,8 +24,9 @@ class ScheduleCancellationController extends Controller
     public function index(){
         return view('cancellations.index');
     }
+
     public function cancellationForm($id){
-        $allocation = Allocation::find($id)->with('lecturer','schedule','room','cancellation')->first();
+        $allocation = Allocation::where('id','=',$id)->with('lecturer','schedule','room','cancellation')->first();
         //var_dump($allocation);die;
         return view('cancellations.cancellationForm',compact('allocation'));
     }
@@ -36,17 +39,46 @@ class ScheduleCancellationController extends Controller
         $allocationCancellation->approved = 0;
         $allocationCancellation->student_message = $request->student_message;
         $allocationCancellation->staff_message = $request->staff_message;
-        $allocationCancellation->save();
-
-        //return "Cancellation requested $id";
+        if($allocationCancellation->save()) {
+            event(new EventTrigger());
+            return redirect('cancel')->with('success', 'Cancellation requested');
+        }
     }
 
-    public function approvalForm(){
-        return view('');
+
+    public function approval_index(){
+        return view('cancellations.approvalindex');
     }
 
-    public function approval(){
-        return redirect('');
+
+    public function approvalForm($id){
+        $allocation = Allocation::where('id','=',$id)->with('lecturer','schedule','room','cancellation')->first();
+        //var_dump($allocation);die;
+        return view('cancellations.approvalForm',compact('allocation'));
+    }
+
+    public function approvalRequest($id,Request $request){
+
+        $allocation = Allocation::find($id);
+        $allocationCancellation = AllocationCancellation::find($allocation->cancellation->id);
+//        echo "<pre>";
+//        var_dump($allocationCancellation);
+//        die;
+        if($request->approve) {
+            $allocationCancellation->approved = 1;
+            if ($allocationCancellation->update()) {
+
+                $schedule = Schedule::find($allocation->schedule_id);
+                $allocation->delete();
+                $schedule->delete();
+                return redirect('cancel')->with('success', 'Cancellation Request Approved');
+            }
+        }else if($request->reject){
+            if ($allocationCancellation->delete()) {
+                return redirect('cancel')->with('error', 'Cancellation Request Rejected');
+            }
+        }
+
     }
 
 

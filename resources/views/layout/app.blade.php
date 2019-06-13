@@ -48,17 +48,17 @@
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content-wrapper" class="d-flex flex-column" >
 
         <!-- Main Content -->
-        <div id="content">
+        <div id="content" >
 
             <!-- Topbar -->
             @include('inc.navbar')
             <!-- End of Topbar -->
 
             <!-- Begin Page Content -->
-            <div class="container-fluid">
+            <div class="container-fluid" {{--id="app"--}}>
                 <!-- messages -->
                 @include('inc.messages')
                 <!-- end of messages -->

@@ -2,7 +2,7 @@
 @section('content')
     <a href="/allocations" class=""><i class="fa fa-arrow-alt-circle-left"></i> Go Back </a>
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Edit allocation</h1>
+    <h1 class="h3 mb-4 text-gray-800">Cancellation Request</h1>
 
     <div class="row">
         <div class="col-md-12">

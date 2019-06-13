@@ -1,8 +1,7 @@
 @extends('layout.app')
 @section('content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">allocations <a href="/allocations/create" class="btn btn-primary btn-sm"><i
-                    class="fa fa-plus-square"></i> New allocation</a></h1>
+    <h1 class="h3 mb-4 text-gray-800">Cancellations</h1>
 
     <div class="row">
         <div class="col-md-12">

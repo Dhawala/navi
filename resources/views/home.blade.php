@@ -210,6 +210,10 @@
             $('#scheduleTable').DataTable( {
                 processing: true,
                 serverSide: true,
+                rowReorder: {
+                    selector: 'td:nth-child(2)'
+                },
+                responsive: true,
                 "ajax": 'data/schedules',
                 columns: [
                     { data: 'ac_code', name: 'ac_code' },

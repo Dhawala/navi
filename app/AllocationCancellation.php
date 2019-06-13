@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AllocationCancellation extends Model
 {
     //
+    use SoftDeletes;
+
     public function user(){
         return $this->hasOne('App\User','id','user_id');
     }
@@ -16,6 +19,6 @@ class AllocationCancellation extends Model
     }
 
     public function allocation(){
-        return $this->belongsTo('App\Allocation', 'id','Allocation_id');
+        return $this->belongsTo('App\Allocation', 'Allocation_id','id');
     }
 }

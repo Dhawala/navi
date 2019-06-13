@@ -25,6 +25,8 @@
     },
     "dependencies": {
         "bootstrap-select": "^1.13.9",
+        "datatables.net": "^1.10.19",
+        "datatables.net-dt": "^1.10.19",
         "font-awesome": "^4.7.0",
         "gijgo": "^1.9.13",
         "laravel-echo": "^1.5.3",

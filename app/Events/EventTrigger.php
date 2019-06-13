@@ -10,7 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class EventTrigger
+class EventTrigger implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,6 +31,6 @@ class EventTrigger
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('demo');
     }
 }

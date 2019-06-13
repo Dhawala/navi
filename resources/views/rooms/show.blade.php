@@ -10,22 +10,23 @@
                 <div class="card-body">
                     <div class="form-group">
                         <div class="col-md-4">
+                            <label>Room id</label>
+                            <input type="text" class="form-control" name="room_id" id="room_id"
+                                   placeholder="Room id"
+                                   required value="{{$room->room_id}}">
+                            <label>Room name</label>
+                            <input type="text" class="form-control" name="room_name" id="room_name"
+                                   placeholder="Room name"
+                                   required value="{{$room->room_name}}">
+                            <label>Description</label>
+                            <textarea class="form-control" name="description" id="description"
+                                      placeholder="Description">{{$room->description}}</textarea>
                             <label>Location id</label>
-                            <input type="text" class="form-control" name="loc_id" id="loc_id"
-                                   placeholder="Location id"
-                                   required value="{{$location->loc_id}}" disabled>
-                            <label>Location name</label>
-                            <input type="text" class="form-control" name="loc_name" id="loc_name"
-                                   placeholder="Location name"
-                                   required value="{{$location->loc_name}}" disabled>
-                            <label>Longitude</label>
-                            <input type="text" class="form-control" name="longitude" id="longitude"
-                                   placeholder="Longitude"
-                                   required value="{{$location->longitude}}" disabled>
-                            <label>latitude</label>
-                            <input type="text" class="form-control" name="latitude" id="latitude"
-                                   placeholder="Latitude"
-                                   required value="{{$location->latitude}}" disabled>
+                            <select class="form-control" name="loc_id" id="loc_id">
+                                @foreach($locations as $location)
+                                    <option value="{{$location->loc_id}}" {{($location->loc_id==$room->loc_id?'selected':'')}}>{{$location->loc_name}}</option>
+                                @endforeach
+                            </select>
 
                         </div>
                     </div>

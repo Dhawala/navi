@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Allocation extends Model
 {
+    use SoftDeletes;
     //
     public function lecturer(){
         return $this->hasOne('App\Lecturer','emp_no','emp_no');

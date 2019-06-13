@@ -18,21 +18,29 @@
             <span>Dashboard</span></a>
     </li>
 
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-        <a class="nav-link" href="/cancel">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Cancel Allocation</span></a>
-    </li>
-
 @if(auth()->user()->role == 'admin')
     <!-- Nav Item - Allocation -->
     <li class="nav-item">
         <a class="nav-link" href="/allocations">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Classroom Allocation</span></a>
+            <span>Schedule Allocation</span></a>
     </li>
 
+    <!-- Nav Item - Cancellation Requests -->
+    <li class="nav-item">
+        <a class="nav-link" href="/approval">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Approve Schedule Cancellation</span></a>
+    </li>
+@endif
+<!-- Nav Item - Dashboard -->
+    <li class="nav-item">
+        <a class="nav-link" href="/cancel">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>My Allocations</span></a>
+    </li>
+
+@if(auth()->user()->role == 'admin')
     <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -103,12 +111,12 @@
 
         <!-- Nav Item - Admin Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMapElements"
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdmin"
                aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>User Administration</span>
             </a>
-            <div id="collapseMapElements" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div id="collapseAdmin" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Admin Activity:</h6>
                     <a class="collapse-item" href="/register">Create Admin Account</a>
