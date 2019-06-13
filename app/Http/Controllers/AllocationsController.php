@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Allocation;
+use App\Events\AllocationEvent;
 use App\Lecturer;
 use App\Room;
 use App\Schedule;
@@ -57,6 +58,9 @@ class AllocationsController extends Controller
         $allocation->room_id = $request->room_id;
         $allocation->save();
 
+        //allocation event
+        event(new AllocationEvent($allocation));
+        die;
         return redirect('/allocations')->with('success', 'successfully created');
     }
 
@@ -136,8 +140,9 @@ class AllocationsController extends Controller
         return $datatables->eloquent(Allocation::query()->with([
                 'lecturer' => function ($query) {
                     if (auth()->user()->role != 'admin') {
-                        $query->where('role', '=', auth()->user()->role)
-                            ->where('id', '=', auth()->user()->id);
+                        $query->with(['user'=>function($query){
+                            $query->where('id','=',auth()->user()->id);
+                        }]);
                     }
                 }, 'schedule', 'room', 'cancellation']
         ))
@@ -173,8 +178,9 @@ class AllocationsController extends Controller
         return $datatables->eloquent(Allocation::query()
             ->with(['lecturer' => function ($query) {
                 if (auth()->user()->role != 'admin') {
-                    $query->where('role', '=', auth()->user()->role)
-                        ->where('id', '=', auth()->user()->id);
+                    $query->with(['user'=>function($query){
+                        $query->where('id','=',auth()->user()->id);
+                    }]);
                 }
             }, 'schedule', 'room', 'cancellation' => function ($query) {
                 $query->where('approved', '=', '0');

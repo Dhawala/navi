@@ -29,13 +29,15 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  */
 
 const app = new Vue({
-    el: '#app',
+     el: '#app',
+    //el: '#wrapper',
     created(){
         Echo.channel('demo').listen('EventTrigger',(e)=>{
             console.log(e);
         })
-        Echo.channel('approved').listen('ScheduleCancellationApprovalEventTrigger',(e)=>{
+        Echo.channel('allocation').listen('AllocationEvent',(e)=>{
             console.log(e);
+            allocationChannel(e);
         })
     }
 });

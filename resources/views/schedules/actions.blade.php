@@ -1,4 +1,4 @@
-@if(!Auth::guest())
+@if(!Auth::guest() && Auth::user()->role=='admin')
     <a href="/schedules/{{$schedule->id}}/edit"
        class="btn btn-primary btn-sm btn-circle"><i
                 class="fa fa-edit"></i></a>

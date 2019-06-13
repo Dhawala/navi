@@ -3,14 +3,14 @@
 @section('content')
         <div class="row">
             @if(auth()->user()->role=='lecturer')
-            <div class="col-md-8 mb-4">
+            <div class="col-md-8 col-sm-12 mb-4">
                 <div class="card shadow-lg">
                     <div class="card-header">
                         <h6 class="m-0 font-weight-bold text-primary">My Allocations</h6>
                     </div>
                     <div class="card-body">
 
-                    <table class="table" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table" id="myAllocationTable" cellspacing="0">
                         <thead>
                         <tr>
                         <tr>
@@ -73,15 +73,14 @@
                 </div>
             </div>
             @endif
-            <div class=" col-md-8">
+            <div class=" col-md-8 col-sm-12">
                 <div class="card shadow-lg">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary"> Schedules</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <table class="table table-bordered" id="scheduleTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="scheduleTable"  cellspacing="0">
                                     <thead>
                                     <tr>
                                     <tr>
@@ -143,7 +142,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 col-sm-12">
                 <div class="card shadow-lg">
                     <div class="card-header">Map</div>
                     <div class="card-body">
@@ -226,7 +225,28 @@
                     { data: 'action', orderable: false, searchable: false},
                 ]
             } );
+            $('#myAllocationTable').DataTable( {
+                processing: true,
+                serverSide: true,
+                rowReorder: {
+                    selector: 'td:nth-child(2)'
+                },
+                responsive: true,
+                "ajax": 'data/allocations',
+                columns: [
+                    { data: 'emp_no' },
+                    { data: 'lecturer.name' },
+                    { data: 'schedule_id' },
+                    { data: 'schedule_info' },
+                    { data: 'room_id' },
+                    { data: 'cancel_alloc' },
+                    { data: 'action', orderable: false, searchable: false},
+                ]
+            } );
         } );
+        function allocationChannel(e) {
+            window.alert("hi");
+        }
     </script>
     <!--Load the API from the specified URL
     * The async attribute allows the browser to render the page while the API loads

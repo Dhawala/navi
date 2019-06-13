@@ -25,6 +25,8 @@
 
     <!-- data table css-->
     <link href="{{asset('css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/rowReorder.dataTables.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/responsive.dataTables.min.css')}}" rel="stylesheet">
 
     <!-- Tempdominus date time picker css-->
     <link href="{{asset('css/tempusdominus-bootstrap-4.css')}}" rel="stylesheet">
@@ -40,6 +42,7 @@
 
 <!-- Page Wrapper -->
 <div id="wrapper">
+    <span id="app"></span>
 
 
 
@@ -114,6 +117,8 @@
 <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
 {{--<data tables bootstrap js >--}}
 <script src="{{asset('js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('js/dataTables.rowReorder.min.js')}}"></script>
+<script src="{{asset('js/dataTables.responsive.min.js')}}"></script>
 {{--End data table js--}}
 {{--<Moment js date time validation>--}}
 <script src="{{asset('js/moment.js')}}"></script>

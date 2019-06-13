@@ -37,7 +37,7 @@
     <li class="nav-item">
         <a class="nav-link" href="/cancel">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>My Allocations</span></a>
+            <span>Cancel My Allocations</span></a>
     </li>
 
 @if(auth()->user()->role == 'admin')

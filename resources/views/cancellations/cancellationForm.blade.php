@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('content')
-    <a href="/allocations" class=""><i class="fa fa-arrow-alt-circle-left"></i> Go Back </a>
+    <a href="/cancel" class=""><i class="fa fa-arrow-alt-circle-left"></i> Go Back </a>
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">Cancellation Request</h1>
 
