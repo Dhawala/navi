@@ -10,4 +10,8 @@ class Lecturer extends Model
     {
         return $this->belongsTo('App\Allocation','emp_no','emp_no');
     }
+    public function user()
+    {
+        return $this->hasOne('App\User','email','email');
+    }
 }
