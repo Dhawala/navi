@@ -1,7 +1,7 @@
 @extends('layout.app')
 @section('content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Cancel My Allocations</h1>
+    <h1 class="h3 mb-4 text-gray-800">My Allocations</h1>
 
     <div class="row">
         <div class="col-md-12">

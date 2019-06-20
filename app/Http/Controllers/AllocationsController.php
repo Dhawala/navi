@@ -59,8 +59,9 @@ class AllocationsController extends Controller
         $allocation->save();
 
         //allocation event
-        event(new AllocationEvent($allocation));
-        die;
+            //event(new AllocationEvent($allocation));
+
+
         return redirect('/allocations')->with('success', 'successfully created');
     }
 

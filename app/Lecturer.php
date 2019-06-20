@@ -12,6 +12,6 @@ class Lecturer extends Model
     }
     public function user()
     {
-        return $this->hasOne('App\User','email','email');
+        return $this->belongsTo('App\User','user_id','id');
     }
 }

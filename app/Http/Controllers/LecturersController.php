@@ -73,8 +73,9 @@ class LecturersController extends Controller
         $user->role = 'lecturer';
 
         DB::transaction(function()use($lecturer,$user){
-            $lecturer->save();
             $user->save();
+            $lecturer->user_id = $user->id;
+            $lecturer->save();
         });
 
         return redirect('/lecturers')->with('success','Lecturer Created Successfully');

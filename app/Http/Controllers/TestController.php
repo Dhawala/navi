@@ -72,6 +72,18 @@ class TestController extends Controller
 //
 //        }
 
+//        $users = User::all();
+//
+//        foreach ($users as $user){
+//            if($user->role == 'lecturer') {
+//                $lecturer = Lecturer::where('email', '=', $user->email)->first();
+//                if($lecturer!=null) {
+//                    $lecturer->user_id = $user->id;
+//                    $lecturer->update();
+//                }
+//            }
+//        }
+
 
 
     }

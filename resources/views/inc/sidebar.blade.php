@@ -37,7 +37,7 @@
     <li class="nav-item">
         <a class="nav-link" href="/cancel">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Cancel My Allocations</span></a>
+            <span>My Allocations</span><span class="badge badge-success badge-counter" id="myAllocationCount">{{isset($allocationcount)?$allocationcount:''}}</span></a>
     </li>
 
 @if(auth()->user()->role == 'admin')

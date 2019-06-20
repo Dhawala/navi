@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Allocation;
 use App\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use phpDocumentor\Reflection\Types\Parent_;
+use View;
 
 class HomeController extends Controller
 {
@@ -14,6 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('auth');
     }
 
@@ -25,6 +30,7 @@ class HomeController extends Controller
     public function index()
     {
         $schedules = Schedule::all();
+
         return view('home',compact('schedules'));
     }
 }
