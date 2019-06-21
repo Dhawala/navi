@@ -23,7 +23,7 @@
     <li class="nav-item">
         <a class="nav-link" href="/allocations">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Schedule Allocation</span></a>
+            <span>Allocate Schedule</span></a>
     </li>
 
     <!-- Nav Item - Cancellation Requests -->
