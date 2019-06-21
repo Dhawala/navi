@@ -2,9 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Allocation;
+use App\Http\Controllers\CounterController;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 use View;
 
 class AllocationCount
@@ -18,20 +17,8 @@ class AllocationCount
      */
     public function handle($request, Closure $next)
     {
-        $allocationcount='';
-        if(!Auth::guest()) {
-            if (Auth::user()->role != 'admin') {
-                $allocationcount = Allocation::with(['lecturer' => function ($q) {
-                    $q->with(['user' => function ($q) {
-                        $q->where('id', '=', Auth::user()->id);
-                    }]);
-                }])->count();
-            } else {
-                $allocationcount = Allocation::all()->count();
-            }
-        }
-
-        View::share('allocationcount',$allocationcount);
+        View::share('allocationcount',CounterController::allocationCount());
+        View::share('cancellationRequestCount',CounterController::scheduleCancellationRequestCount());
         return $next($request);
     }
 }

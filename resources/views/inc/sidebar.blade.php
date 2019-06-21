@@ -30,14 +30,22 @@
     <li class="nav-item">
         <a class="nav-link" href="/approval">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Approve Schedule Cancellation</span></a>
+            <span>Approve Schedule Cancellation</span>
+            <span class="badge badge-success badge-counter" id="myAllocationCount">
+                {{isset($cancellationRequestCount)?$cancellationRequestCount:''}}
+            </span>
+        </a>
     </li>
 @endif
 <!-- Nav Item - Dashboard -->
     <li class="nav-item">
         <a class="nav-link" href="/cancel">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>My Allocations</span><span class="badge badge-success badge-counter" id="myAllocationCount">{{isset($allocationcount)?$allocationcount:''}}</span></a>
+            <span>My Allocations</span>
+            <span class="badge badge-success badge-counter" id="myAllocationCount">
+                {{isset($allocationcount)?$allocationcount:''}}
+            </span>
+        </a>
     </li>
 
 @if(auth()->user()->role == 'admin')

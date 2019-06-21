@@ -144,15 +144,7 @@ class AllocationsController extends Controller
 
     public function data(DataTables $datatables)
     {
-        return $datatables->eloquent(Allocation::query()->with([
-                'lecturer' => function ($query) {
-                    if (auth()->user()->role != 'admin') {
-                        $query->with(['user'=>function($query){
-                            $query->where('id','=',auth()->user()->id);
-                        }]);
-                    }
-                }, 'schedule', 'room', 'cancellation']
-        ))
+        return $datatables->eloquent(QueryController::allocations())
             ->editColumn('emp_no', function ($allocation) {
                 return '<a href="/allocations/' . $allocation->id . '">' . $allocation->emp_no . '</a>';
             })
@@ -182,17 +174,7 @@ class AllocationsController extends Controller
     public function cancellationRequests(DataTables $datatables)
     {
 
-        return $datatables->eloquent(Allocation::query()
-            ->with(['lecturer' => function ($query) {
-                if (auth()->user()->role != 'admin') {
-                    $query->with(['user'=>function($query){
-                        $query->where('id','=',auth()->user()->id);
-                    }]);
-                }
-            }, 'schedule', 'room', 'cancellation' => function ($query) {
-                $query->where('approved', '=', '0');
-            }])
-        )
+        return $datatables->eloquent(QueryController::scheduleCancellationRequests())
             ->editColumn('emp_no', function ($allocation) {
                 return '<a href="/allocations/' . $allocation->id . '">' . $allocation->emp_no . '</a>';
             })
