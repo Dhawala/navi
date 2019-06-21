@@ -12,6 +12,12 @@ use Yajra\DataTables\DataTables;
 
 class AllocationsController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
