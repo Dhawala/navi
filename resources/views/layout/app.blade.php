@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <meta name="user-id" content="{{ Auth::user()->id }}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -133,6 +133,10 @@
 --}}
 <script src="{{asset('js/i18n/defaults-en_US.min.js')}}"></script>
 {{--End bootstrap select--}}
+{{--Notify js--}}
+<script src="{{asset('js/notify.min.js')}}"></script>
+
+
 @yield('script')
 {{--Data table--}}
 <script>
@@ -160,6 +164,13 @@
             }
         });
     });
+
+    function allocationChannel(e) {
+        $("#myAllocationCount").html(e.allocationCount);
+
+        $.notify('New Schedule allocated !'+e.allocation.schedule.id, "success");
+    }
+
 </script>
 {{--<End active link>--}}
 </body>

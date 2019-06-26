@@ -8,6 +8,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
 
 /**
  * The following block of code may be used to automatically register your
@@ -35,9 +36,16 @@ const app = new Vue({
         Echo.channel('demo').listen('EventTrigger',(e)=>{
             console.log(e);
         })
-        Echo.channel('allocation').listen('AllocationEvent',(e)=>{
-            console.log(e);
-            allocationChannel(e);
-        })
+        // Echo.channel('allocation').listen('AllocationEvent',(e)=>{
+        //     console.log(e);
+        //     allocationChannel(e);
+        // })
+        console.log(`allocation.`+this.$userId);
+        Echo.private('allocation.'+this.$userId)
+            .listen('AllocationEvent', (e) => {
+                console.log(e);
+                console.log(this.$userId);
+                allocationChannel(e);
+            });
     }
 });

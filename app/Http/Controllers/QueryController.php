@@ -15,7 +15,7 @@ class QueryController extends Controller
             ->whereHas('lecturer',function($q){
                 $q->whereHas('user',function ($q){
                     //if user not an admin
-                    if (Auth::user()->role != 'admin') {
+                    if ( isset(auth()->user()->role) && auth()->user()->role != 'admin') {
                         $q->where('id', '=', Auth::user()->id);
                     }
                 });
@@ -29,7 +29,7 @@ class QueryController extends Controller
             ->whereHas('lecturer',function($q){
                 $q->whereHas('user',function ($q){
                     //if user not an admin
-                    if (Auth::user()->role != 'admin') {
+                    if ( isset(auth()->user()->role) && auth()->user()->role != 'admin') {
                         $q->where('id', '=', Auth::user()->id);
                     }
                 });

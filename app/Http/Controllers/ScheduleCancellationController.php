@@ -41,7 +41,7 @@ class ScheduleCancellationController extends Controller
         $allocationCancellation->student_message = $request->student_message;
         $allocationCancellation->staff_message = $request->staff_message;
         if($allocationCancellation->save()) {
-            //event(new EventTrigger());
+            event(new EventTrigger());
             return redirect('cancel')->with('success', 'Cancellation requested');
         }
     }
@@ -72,6 +72,8 @@ class ScheduleCancellationController extends Controller
                 $schedule = Schedule::find($allocation->schedule_id);
                 $allocation->delete();
                 $schedule->delete();
+                //on cancellation approval
+                event(new AllocationEvent($allocation));
                 return redirect('cancel')->with('success', 'Cancellation Request Approved');
             }
         }else if($request->reject){

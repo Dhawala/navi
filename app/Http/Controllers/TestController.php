@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Allocation;
 use App\Course;
 use App\Enrolment;
+use App\Events\AllocationEvent;
+use App\Events\EventTrigger;
 use App\Lecturer;
 use App\Student;
 use App\Student_login;
@@ -22,7 +25,10 @@ class TestController extends Controller
      */
     public function index()
     {
-        $faker = Factory::create();
+        $alloc = Allocation::query()->with(['schedule'])->first();
+        event(new EventTrigger());
+        event(new AllocationEvent($alloc));
+        //$faker = Factory::create();
         //student test data
 //        for($i=0;$i<=2000;$i++){
 //
@@ -38,7 +44,7 @@ class TestController extends Controller
 //            );
 //
 //        }
-        $students = Student::all();
+        //$students = Student::all();
 
 //        foreach ($students as $student){
 //            $student_login = new Student_login();

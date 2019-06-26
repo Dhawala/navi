@@ -39,7 +39,7 @@ class AllocationsController extends Controller
     public function create()
     {
         $lecturers = Lecturer::all();
-        $schedules = Schedule::all();
+        $schedules = Schedule::query()->doesntHave('allocation')->get();
         $rooms = Room::all();
         return view('allocations.create', compact('lecturers', 'schedules', 'rooms'));
     }
@@ -65,7 +65,7 @@ class AllocationsController extends Controller
         $allocation->save();
 
         //allocation event
-            //event(new AllocationEvent($allocation));
+        event(new AllocationEvent($allocation));
 
 
         return redirect('/allocations')->with('success', 'successfully created');
@@ -123,6 +123,7 @@ class AllocationsController extends Controller
         $allocation->schedule_id = $request->schedule_id;
         $allocation->room_id = $request->room_id;
         $allocation->save();
+        event(new AllocationEvent($allocation));
 
         return redirect('/allocations')->with('success', 'updated successfully');
 

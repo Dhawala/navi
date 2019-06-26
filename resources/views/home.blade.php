@@ -188,7 +188,7 @@
                     $.each(data.data,function (k,v) {
                         //console.log(v.coordinates);
                         var ob = $.parseJSON(v.coordinates);
-                        console.log(ob);
+                        //console.log(ob);
 
                         building_catcher[k] = new google.maps.Polygon({
                             paths: ob,
@@ -244,9 +244,6 @@
                 ]
             } );
         } );
-        function allocationChannel(e) {
-            window.alert("hi");
-        }
     </script>
     <!--Load the API from the specified URL
     * The async attribute allows the browser to render the page while the API loads
@@ -254,6 +251,6 @@
     * The callback parameter executes the initMap() function
     -->
     <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7jUUkegCF8PMXANQraSgm9XGp9oBAvyI&callback=initMap">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGwvQhboCkyMTxSjjmuZgzoAFDRaXHKVM&callback=initMap">
     </script>
 @endsection
