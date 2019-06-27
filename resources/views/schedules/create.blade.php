@@ -19,7 +19,26 @@
                     @csrf
                     <!-- Modal body -->
                     <div class="modal-body">
+
+                        <label>file</label>
                         <input type="file" name="upload_file" multiple>
+                        <div class="form-group">
+                            <input type="radio" checked name="upload_options" value="none" class="form-control-sm"> Keep all data
+                        </div>
+                        <div class="form-group">
+                        <input type="radio" name="upload_options" value="rem_prev_year" class="form-control-sm">Remove all Previous Data
+                        </div>
+                        <div class="form-group">
+                        <input type="radio" name="upload_options" value="rem_by_date" class="form-control-sm">Remove Data uploaded before
+                            <div class="input-group date" id="datetimepicker5" data-target-input="nearest">
+                                <input type="text" name="rem_date" class="form-control datetimepicker-input"
+                                       data-target="#datetimepicker5"/>
+                                <div class="input-group-append" data-target="#datetimepicker5"
+                                     data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 {{--https://handsontable.com/ excel like table--}}
                     <!-- Modal footer -->
@@ -137,6 +156,10 @@
 @section('script')
     <script>
         $(function () {
+            $('#datetimepicker5').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+
             $('#datetimepicker4').datetimepicker({
                 format: 'YYYY-MM-DD'
             });

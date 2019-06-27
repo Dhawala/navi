@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Psy\CodeCleaner\LeavePsyshAlonePass;
 use Smalot\PdfParser\Parser;
+use DB;
 
 class FileController extends Controller
 {
@@ -45,8 +46,9 @@ class FileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
@@ -54,6 +56,23 @@ class FileController extends Controller
             'upload_file'=>'file',
         ]);
 
+        var_dump($request->upload_options);
+        if($request->upload_options == 'rem_prev_year'){
+
+            $all_active_schedules = Schedule::query();
+            $all_active_activities = Activity::query();
+            $all_active_courses = Course::query();
+            DB::transaction(function ()use($all_active_activities,$all_active_courses,$all_active_schedules){
+                $all_active_activities->delete();
+                $all_active_courses->delete();
+                $all_active_schedules->delete();
+            });
+
+        }elseif($request->upload_options == 'rem_by_date'){
+            $this->validate($request, [
+                'rem_date'=>'required',
+            ]);
+        }
         //file Upload
 
         if($request->hasFile('upload_file')){
@@ -141,13 +160,19 @@ class FileController extends Controller
                     '(?P<credits>[0-9A-Z]?|)'.
                     '(?P<number>[0-9]{2})/',$course_buffer['code'],$course_info );
 
-                $course = new Course();
-                $course->course_code = $course_buffer['code'];
-                $course->course_name = $course_buffer['name'];
-                $course->department = $course_info['department'];
-                $course->credits = $course_info['credits'];
-                $course->batch_id = $batch->id;
-                $course->save();
+                $old_course = Course::withTrashed()->where('course_code','=',$course_buffer['code'])->first();
+
+                if($old_course){
+                    $old_course->restore();
+                }else {
+                    $course = new Course();
+                    $course->course_code = $course_buffer['code'];
+                    $course->course_name = $course_buffer['name'];
+                    $course->department = $course_info['department'];
+                    $course->credits = $course_info['credits'];
+                    $course->batch_id = $batch->id;
+                    $course->save();
+                }
             }
             }
 
@@ -195,6 +220,7 @@ class FileController extends Controller
                 $activity_set[$activity_code]=$first_letters;
                 //end activity list preg_match
 
+
                 $schedule = new Schedule();
                 $schedule->ac_code = $activity_code;
                 $schedule->room_id = 0;
@@ -220,22 +246,31 @@ class FileController extends Controller
             echo "<pre>";
             //var_dump($first_letters);
             //echo $first_letters['l_two'];
-            $actv= new Activity();
 
-             echo $actv->ac_code =
-                (isset($act['l1'])?$act['l1']:'').
-                (isset($act['l2'])?$act['l2']:'').
-                (isset($act['l3'])?$act['l3']:'').
-                (isset($act['l4'])?$act['l4']:'').
-                (isset($act['l5'])?$act['l5']:'').
-                (isset($act['number'])?$act['number']:'').
-                (isset($act['session'])&&$act['session']!=''? '(S':'').
-                (isset($act['session_no'])? $act['session_no'].')':'')
-             ;
-            echo $actv->ac_name = $act[0];
-            $actv->batch_id = 0;
-            $actv->batch_id= $batch->id;
-            $actv->save();
+            //todo- activity duplicates validation
+            $actv = new Activity();
+
+            echo $actv->ac_code =
+                (isset($act['l1']) ? $act['l1'] : '') .
+                (isset($act['l2']) ? $act['l2'] : '') .
+                (isset($act['l3']) ? $act['l3'] : '') .
+                (isset($act['l4']) ? $act['l4'] : '') .
+                (isset($act['l5']) ? $act['l5'] : '') .
+                (isset($act['number']) ? $act['number'] : '') .
+                (isset($act['session']) && $act['session'] != '' ? '(S' : '') .
+                (isset($act['session_no']) ? $act['session_no'] . ')' : '');
+
+            $old_activity = Activity::withTrashed()->where('ac_code','=',$actv->ac_code)->first();
+
+            if($old_activity){
+                $old_activity->restore();
+            }else {
+
+                echo $actv->ac_name = $act[0];
+                $actv->batch_id = 0;
+                $actv->batch_id = $batch->id;
+                $actv->save();
+            }
 
         }
         //lecturers
@@ -254,7 +289,9 @@ class FileController extends Controller
         }
         //echo "<pre>$text</pre>";
 
-        return redirect('/file')->with('success', 'File was saved Successfully');
+
+
+        return redirect('/schedules')->with('success', 'File was saved Successfully');
     }
 
     /**
