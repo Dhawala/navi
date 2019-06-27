@@ -21,6 +21,10 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
 
+        'Illuminate\Notifications\Events\NotificationSent' => [
+            'App\Listeners\LogNotification',
+        ],
+
         AllocationEvent::class=>[
             AllocationMessage::class,
         ],

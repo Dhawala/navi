@@ -15,6 +15,10 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('allocation.{id}', function ($user,$id) {
-     return (int)$id === (int)$user->id;
-});
+//Broadcast::channel('allocation.{id}', function ($user,$id) {
+//     return (int)$id === (int)$user->id;
+//});
+//
+//Broadcast::channel('cancel.{id}', function ($user,$id) {
+//    return (int)$id === (int)$user->id;
+//});

@@ -145,7 +145,7 @@ class AllocationsController extends Controller
 
     public function data(DataTables $datatables)
     {
-        return $datatables->eloquent(QueryController::allocations())
+        return $datatables->eloquent(QueryController::allocations()->orderBy('allocations.created_at','DESC'))
             ->editColumn('emp_no', function ($allocation) {
                 return '<a href="/allocations/' . $allocation->id . '">' . $allocation->emp_no . '</a>';
             })
@@ -175,7 +175,7 @@ class AllocationsController extends Controller
     public function cancellationRequests(DataTables $datatables)
     {
 
-        return $datatables->eloquent(QueryController::scheduleCancellationRequests())
+        return $datatables->eloquent(QueryController::scheduleCancellationRequests()->orderBy('allocations.created_at','DESC'))
             ->editColumn('emp_no', function ($allocation) {
                 return '<a href="/allocations/' . $allocation->id . '">' . $allocation->emp_no . '</a>';
             })

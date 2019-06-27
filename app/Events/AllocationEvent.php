@@ -39,14 +39,9 @@ class AllocationEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         //admins get all notifications
-        if(auth()->user()->role == 'admin') {
-            return new PrivateChannel('allocation.' . auth()->user()->id);
-        }
-        //other users will get notifications specific to them
-        else{
-            if($this->allocation->lecturer->user->id == auth()->user()->id){
-                return new PrivateChannel('allocation.' . auth()->user()->id);
-            }
-        }
+            return new Channel('allocation');
+
+        //return new Channel('allocation');
+        //return new PrivateChannel('Allocation.'.$this->allocation->id);
     }
 }

@@ -2,8 +2,31 @@
 
 @section('content')
         <div class="row">
-            @if(auth()->user()->role=='lecturer')
-            <div class="col-md-8 col-sm-12 mb-4">
+
+            <div class="col-md-12 col-sm-12 mb-4">
+                <div class="card shadow-lg">
+                    <div class="card-header">Map</div>
+                    <div class="card-body">
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+                        <style>
+                            /* Set the size of the div element that contains the map */
+                            #map {
+                                height: 300px; /* The height is 400 pixels */
+                                width: 100%; /* The width is the width of the web page */
+                            }
+                        </style>
+                        <!--The div element for the map -->
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+
+        @if(auth()->user()->role=='lecturer')
+            <div class="col-md-12 col-sm-12 mb-4">
                 <div class="card shadow-lg">
                     <div class="card-header">
                         <h6 class="m-0 font-weight-bold text-primary">My Allocations</h6>
@@ -14,58 +37,30 @@
                         <thead>
                         <tr>
                         <tr>
-                            <th>Activity code</th>
-                            <th>course code</th>
+                            <th>emp_no</th>
+                            <th>Lecturer_name</th>
+                            <th>schedule_info</th>
                             <th>date</th>
                             <th>start time</th>
                             <th>end time</th>
-                            <th>room id</th>
-                            <th>Action</th>
+                            <th>class room</th>
+                            <th>cancel</th>
                         </tr>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
-                            <th>Activity code</th>
-                            <th>course code</th>
+                            <th>emp_no</th>
+                            <th>Lecturer_name</th>
+                            <th>schedule_info</th>
                             <th>date</th>
                             <th>start time</th>
                             <th>end time</th>
-                            <th>room id</th>
-                            <th>Action</th>
+                            <th>class room</th>
+                            <th>cancel</th>
                         </tr>
                         </tfoot>
                         <tbody>
-{{--
-                        @if(count($schedules)>0)
-                            @foreach($schedules as $schedule)
-                                <tr>
-                                    <td><a href="/schedules/{{$schedule->id}}">{{$schedule->ac_code}}</a>
-                                    </td>
-                                    <td>{{$schedule->course_code}}</td>
-                                    <td>{{$schedule->date}}</td>
-                                    <td>{{$schedule->start_time}}</td>
-                                    <td>{{$schedule->end_time}}</td>
-                                    <td>{{$schedule->room_id}}</td>
-                                    <td>
-                                        @if(!Auth::guest())
-                                            <a href="/schedules/{{$schedule->id}}/edit"
-                                               class="btn btn-primary btn-sm btn-circle"><i
-                                                        class="fa fa-edit"></i></a>
-                                            <form action="/schedules/{{$schedule->id}}" method="POST"
-                                                  class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" id="submit"
-                                                        class="btn btn-danger btn-sm btn-circle"><i
-                                                            class="fa fa-trash "></i></button>
-                                            </form>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
---}}
                         </tbody>
                     </table>
 
@@ -73,7 +68,7 @@
                 </div>
             </div>
             @endif
-            <div class=" col-md-8 col-sm-12">
+            <div class=" col-md-12 col-sm-12">
                 <div class="card shadow-lg">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary"> Schedules</h6>
@@ -139,27 +134,6 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-12">
-                <div class="card shadow-lg">
-                    <div class="card-header">Map</div>
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-                        <style>
-                            /* Set the size of the div element that contains the map */
-                            #map {
-                                height: 400px; /* The height is 400 pixels */
-                                width: 100%; /* The width is the width of the web page */
-                            }
-                        </style>
-                        <!--The div element for the map -->
-                        <div id="map"></div>
                     </div>
                 </div>
             </div>
@@ -236,11 +210,13 @@
                 columns: [
                     { data: 'emp_no' },
                     { data: 'lecturer.name' },
-                    { data: 'schedule_id' },
                     { data: 'schedule_info' },
+                    { data: 'schedule.date' },
+                    { data: 'schedule.start_time' },
+                    { data: 'schedule.end_time' },
                     { data: 'room_id' },
                     { data: 'cancel_alloc' },
-                    { data: 'action', orderable: false, searchable: false},
+                    //{ data: 'action', orderable: false, searchable: false},
                 ]
             } );
         } );

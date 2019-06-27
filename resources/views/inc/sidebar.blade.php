@@ -31,7 +31,7 @@
         <a class="nav-link" href="/approval">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Approve Schedule Cancellation</span>
-            <span class="badge badge-success badge-counter" id="myAllocationCount">
+            <span class="badge badge-success badge-counter" id="cancellationCount">
                 {{isset($cancellationRequestCount)?$cancellationRequestCount:''}}
             </span>
         </a>

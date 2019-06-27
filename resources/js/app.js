@@ -9,6 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
+Vue.prototype.$userRole = document.querySelector("meta[name='user-role']").getAttribute('content');
 
 /**
  * The following block of code may be used to automatically register your
@@ -40,12 +41,29 @@ const app = new Vue({
         //     console.log(e);
         //     allocationChannel(e);
         // })
-        console.log(`allocation.`+this.$userId);
-        Echo.private('allocation.'+this.$userId)
+        //console.log(`allocation.`+this.$userId);
+        Echo.channel('allocation')
             .listen('AllocationEvent', (e) => {
                 console.log(e);
                 console.log(this.$userId);
-                allocationChannel(e);
+                allocationChannel(e,this.$userId,this.$userRole);
+            });
+
+        Echo.channel('cancel')
+            .listen('CancelEvent', (e) => {
+                console.log(e);
+                cancelChannel(e,this.$userId,this.$userRole);
+            });
+
+        Echo.channel('approve')
+            .listen('ApprovalEvent', (e) => {
+                console.log(e);
+                approveChannel(e,this.$userId,this.$userRole);
+            });
+
+        Echo.private('App.User.' +this.$userId)
+            .notification((notification) => {
+                console.log(notification.type);
             });
     }
 });
