@@ -58,6 +58,12 @@ class AllocationsController extends Controller
             'schedule_id' => 'required',
             'room_id' => 'required',
         ]);
+//        $schedule = Schedule::find($request->schedule_id);
+//        $schedule->room_id = $request->room_id;
+//        $room = Room::find($request->room_id);
+//        $schedule->loc_id = $room->loc_id;
+//
+//        $schedule->update();
 
         $allocation->emp_no = $request->emp_no;
         $allocation->schedule_id = $request->schedule_id;

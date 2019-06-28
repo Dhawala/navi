@@ -53,9 +53,25 @@ class BuildingsController extends Controller
         $request->validate([
             'bul_id'=>'integer|required',
         ]);
+        $cord = explode(PHP_EOL,$request->coordinates);
+        $coordinates ='[';
+        $count =0;
+        foreach ($cord as $c){
+            if($count!=0){
+                $coordinates.=',';
+            }
+            $coordinates.='{';
+            preg_match('/(?P<lat>\d*.\d*)[,](?P<lng>\d*.\d*)/',$c,$cordi);
+            $coordinates.='"lat":'.$cordi['lat'];
+            $coordinates.=', ';
+            $coordinates.='"lng":'.$cordi['lng'];
+            $coordinates.='}';
+            $count++;
+        }
+        $coordinates .=']';
 
         $building->bul_id = $request->bul_id;
-        $building->coordinates = $request->coordinates;
+        $building->coordinates = $coordinates;
         $building->save();
 
         return redirect('/buildings')->with('success','Saved Successfully!');

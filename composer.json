@@ -19,7 +19,8 @@
         "pusher/pusher-php-server": "~3.0",
         "smalot/pdfparser": "^0.14.0",
         "unisharp/laravel-ckeditor": "^4.7",
-        "yajra/laravel-datatables-oracle": "~9.0"
+        "yajra/laravel-datatables-oracle": "~9.0",
+        "phpoffice/phpexcel": "dev-master"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

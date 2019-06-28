@@ -1,3 +1,4 @@
+
 @extends('layout.app')
 @section('content')
     <a href="/buildings" class=""><i class="fa fa-arrow-alt-circle-left"></i> Go Back </a>

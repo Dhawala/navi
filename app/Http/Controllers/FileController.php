@@ -56,7 +56,7 @@ class FileController extends Controller
             'upload_file'=>'file',
         ]);
 
-        var_dump($request->upload_options);
+        //var_dump($request->upload_options);
         if($request->upload_options == 'rem_prev_year'){
 
             $all_active_schedules = Schedule::query();
@@ -72,6 +72,9 @@ class FileController extends Controller
             $this->validate($request, [
                 'rem_date'=>'required',
             ]);
+            $all_active_schedules = Schedule::query()->where('created_at','<=',$request->rem_date);
+            $all_active_schedules->delete();
+
         }
         //file Upload
 

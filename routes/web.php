@@ -24,6 +24,7 @@ Route::resource('/activities', 'ActivitiesController');
 Route::resource('/buildings', 'BuildingsController');
 Route::resource('/courses', 'CoursesController');
 Route::resource('/enrollments', 'EnrollmentsController');
+Route::post('/excel', 'EnrollmentsController@excel_upload');
 Route::resource('/lecturers', 'LecturersController');
 Route::resource('/locations', 'LocationsController');
 Route::resource('/rooms', 'RoomsController');

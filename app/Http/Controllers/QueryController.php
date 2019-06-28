@@ -19,7 +19,11 @@ class QueryController extends Controller
                         $q->where('id', '=', Auth::user()->id);
                     }
                 });
-            });
+            })
+            ->whereHas('schedule',function ($q){
+                $q->whereNull('deleted_at');
+            })
+        ;
         return $allocations;
     }
 
@@ -36,7 +40,11 @@ class QueryController extends Controller
             })
             ->whereHas('cancellation',function ($query) {
                 $query->where('approved', '=', '0');
-            });
+            })
+            ->whereHas('schedule',function ($q){
+                $q->whereNull('deleted_at');
+            })
+        ;
         return $cancellations;
     }
 }
