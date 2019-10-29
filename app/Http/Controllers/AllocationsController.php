@@ -71,7 +71,7 @@ class AllocationsController extends Controller
         $allocation->save();
 
         //allocation event
-        event(new AllocationEvent($allocation));
+        //event(new AllocationEvent($allocation));
 
 
         return redirect('/allocations')->with('success', 'successfully created');
@@ -129,7 +129,7 @@ class AllocationsController extends Controller
         $allocation->schedule_id = $request->schedule_id;
         $allocation->room_id = $request->room_id;
         $allocation->save();
-        event(new AllocationEvent($allocation));
+        //event(new AllocationEvent($allocation));
 
         return redirect('/allocations')->with('success', 'updated successfully');
 

@@ -13,12 +13,12 @@ class QueryController extends Controller
         $allocations = Allocation::query()
             ->with(['lecturer.user','schedule', 'room','cancellation'])
             ->whereHas('lecturer',function($q){
-                $q->whereHas('user',function ($q){
-                    //if user not an admin
-                    if ( isset(auth()->user()->role) && auth()->user()->role != 'admin') {
-                        $q->where('id', '=', Auth::user()->id);
-                    }
-                });
+//                $q->whereHas('user',function ($q){
+//                    //if user not an admin
+////                    if ( isset(auth()->user()->role) && auth()->user()->role != 'admin') {
+////                        $q->where('id', '=', Auth::user()->id);
+////                    }
+//                });
             })
             ->whereHas('schedule',function ($q){
                 $q->whereNull('deleted_at');
@@ -31,12 +31,12 @@ class QueryController extends Controller
         $cancellations = Allocation::query()
             ->with(['lecturer.user','schedule', 'room','cancellation'])
             ->whereHas('lecturer',function($q){
-                $q->whereHas('user',function ($q){
-                    //if user not an admin
-                    if ( isset(auth()->user()->role) && auth()->user()->role != 'admin') {
-                        $q->where('id', '=', Auth::user()->id);
-                    }
-                });
+//                $q->whereHas('user',function ($q){
+//                    //if user not an admin
+//                    if ( isset(auth()->user()->role) && auth()->user()->role != 'admin') {
+//                        $q->where('id', '=', Auth::user()->id);
+//                    }
+//                });
             })
             ->whereHas('cancellation',function ($query) {
                 $query->where('approved', '=', '0');
